@@ -188,12 +188,16 @@ The mechanical design of the robot was developed through multiple iterations, fo
 ---
 #### 🔹 Structural Components (3D Design)
 
-The chassis is composed of multiple 3D-printed components designed in Onshape:
-
 <p align="center">
-  <img src="models/Soporte_sensor_central.png" width="250">
-  <img src="models/Soporte_sensores_laterales.png" width="250">
-  <img src="models/Soporte_trasero.png" width="250">
+  <span style="display:inline-block; width:250px; height:250px;">
+    <img src="models/Soporte_sensor_central.png" style="max-width:100%; max-height:100%;">
+  </span>
+  <span style="display:inline-block; width:250px; height:250px;">
+    <img src="models/Soporte_sensores_laterales.png" style="max-width:100%; max-height:100%;">
+  </span>
+  <span style="display:inline-block; width:250px; height:250px;">
+    <img src="models/Soporte_trasero.png" style="max-width:100%; max-height:100%;">
+  </span>
 </p>
 
 <p align="center">
@@ -203,20 +207,60 @@ The chassis is composed of multiple 3D-printed components designed in Onshape:
 </p>
 
 <p align="center">
-  <img src="models/Soportes_externos.png" width="250">
-  <img src="models/Soportes_internos.png" width="250">
+  <span style="display:inline-block; width:250px; height:250px;">
+    <img src="models/Soportes_externos.png" style="max-width:100%; max-height:100%;">
+  </span>
+  <span style="display:inline-block; width:250px; height:250px;">
+    <img src="models/Soportes_internos.png" style="max-width:100%; max-height:100%;">
+  </span>
 </p>
 
 <p align="center">
   <b>External Supports</b> &nbsp;&nbsp;&nbsp;
   <b>Internal Supports</b>
 </p>
+
+---
+
+#### 🔹 Main Chassis Structure
+
+<p align="center">
+  <span style="display:inline-block; width:300px; height:300px;">
+    <img src="models/Cuerpo_inferior.png" style="max-width:100%; max-height:100%;">
+  </span>
+  <span style="display:inline-block; width:300px; height:300px;">
+    <img src="models/Cuerpo_superior.png" style="max-width:100%; max-height:100%;">
+  </span>
+</p>
+
+<p align="center">
+  <b>Lower Body</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <b>Upper Body</b>
+</p>
+
+---
+#### 🔹 Complete Assembly
+
+<p align="center">
+  <span style="display:inline-block; width:500px; height:500px;">
+    <img src="models/Estructura_base.png" style="max-width:100%; max-height:100%;">
+  </span>
+</p>
+
+<p align="center">
+  <b>Full Base Structure</b>
+</p>
+
 ---
 #### 🔹 Main Chassis Structure
 
 <p align="center">
-  <img src="models/Cuerpo_inferior.png" width="400">
-  <img src="models/Cuerpo_superior.png" width="400">
+  <span style="display:inline-block; width:300px; height:300px;">
+    <img src="models/Cuerpo_inferior.png" style="max-width:100%; max-height:100%;">
+  </span>
+  <span style="display:inline-block; width:300px; height:300px;">
+    <img src="models/Cuerpo_superior.png" style="max-width:100%; max-height:100%;">
+  </span>
 </p>
 
 <p align="center">
@@ -227,56 +271,14 @@ The chassis is composed of multiple 3D-printed components designed in Onshape:
 #### 🔹 Steering Component
 
 <p align="center">
-  <img src="models/Direccional.png" width="400">
+  <span style="display:inline-block; width:300px; height:300px;">
+    <img src="models/Direccional.png" style="max-width:100%; max-height:100%;">
+  </span>
 </p>
 
 <p align="center">
   <b>Directional Module</b>
 </p>
----
-#### 🔹 Complete Assembly
-
-<p align="center">
-  <img src="models/Estructura_base.png" width="600">
-</p>
-
-<p align="center">
-  <b>Full Base Structure</b>
-</p>
-
----
-
-### 🧠 Engineering Insight
-
-Each component was designed to fulfill a specific function within the system:
-
-- Sensor mounts ensure precise positioning and stable readings  
-- Internal supports increase rigidity under load  
-- The two-layer chassis improves component distribution and lowers the center of gravity  
-- Modular parts allow easier iteration and replacement  
-
-This modular approach enabled rapid iteration and adaptation based on testing results, improving both performance and reliability.
-All chassis STL files are available in the [`models/`](./models/) directory.
-
----
-
-### Steering System
-
-The front axle uses an **Ackermann steering geometry** implemented through a servo-actuated rack-and-pinion linkage built from LEGO Technic rack pieces (part 64781) integrated into the 3D-printed front module.
-
-| Parameter | Value |
-|---|---|
-| Steering servo | SG90 (9g, 1.8 kg·cm stall torque) |
-| Steering range | ~30° left / 30° right from center |
-| Center pulse width | 1500 µs |
-| Left limit | 1100 µs (`IZQUIERDA = 45`) |
-| Right limit | 1900 µs (`DERECHA = 135`) |
-| Control resolution | 1° (Arduino `Servo.write()`) |
-
-**Why Ackermann?** The inner and outer front wheels trace different radius arcs in a turn. Without Ackermann compensation, the inner wheel scrubs, reducing precision and increasing wear. Our linkage approximates this geometry within the packaging constraints.
-
-**Trade-off considered:** A full Ackermann trapezoid would require a wider front axle, exceeding the 200 mm width limit. We used a simplified tie-rod geometry that achieves approximately 70% Ackermann correction — sufficient for the track radii encountered in WRO (minimum ~300 mm inner radius).
-
 ---
 
 ### Traction System
