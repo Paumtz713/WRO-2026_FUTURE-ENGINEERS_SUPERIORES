@@ -84,6 +84,8 @@ Paulina brings extensive competition experience to the team. She has participate
   - [State Machine](#state-machine)
   - [Open Challenge Algorithm](#open-challenge-algorithm)
   - [Obstacle Challenge Algorithm](#obstacle-challenge-algorithm)
+  - [Vision Processing Strategy (ROIs)](#vision-processing-strategy-rois)
+  - [Parking Strategy](#parking-strategy)
   - [PID Control Implementation](#pid-control-implementation)
   - [Testing & Tuning Process](#testing--tuning-process)
 - [Criterion 4 — Systemic Thinking & Engineering Decisions](#criterion-4--systemic-thinking--engineering-decisions)
@@ -435,6 +437,183 @@ The obstacle challenge extends the open challenge with:
 3. **Parking (Obstacle Challenge only):** After 3 laps, the robot must locate and park in the magenta bay. *(Parking implementation in progress — will be committed before competition deadline.)*
 
 **Edge case handled:** If both left and right distances are < 15 cm (narrow corridor), `evitandoColor` is suppressed to avoid steering conflicts between the wall-following PID and the color avoidance.
+
+---
+## 👁️ Vision Processing Strategy (ROIs)
+
+The vision system of the robot is based on the use of a HuskyLens AI camera operating in **Color Recognition mode**, trained to detect traffic pillars:
+- **ID 1 → Red pillar**
+- **ID 2 → Green pillar**
+
+However, raw camera detection alone was not sufficient to achieve stable and reliable behavior. During initial testing, the robot experienced inconsistent detections caused by lighting variations, multiple objects in the frame, and noise from irrelevant areas.
+
+### 🔍 Problem Identified
+
+When processing the entire image:
+- False detections occurred due to floor reflections
+- Multiple objects caused conflicting decisions
+- Detection latency increased due to unnecessary data processing
+- The robot reacted late or incorrectly to obstacles
+
+---
+
+### 🧩 Solution: Regions of Interest (ROIs)
+
+To improve performance, the image was divided into **Regions of Interest (ROIs)**, allowing the system to focus only on relevant areas.
+
+Instead of analyzing the full frame, the robot prioritizes specific zones depending on the task.
+
+---
+
+### 🧱 ROI Structure
+
+The image is conceptually divided into three functional zones:
+
+#### 1. Upper ROI — Early Detection
+- Detects distant pillars
+- Allows anticipation of upcoming turns
+
+**Function:**  
+Prepare steering adjustments before reaching the obstacle
+
+---
+
+#### 2. Middle ROI — Decision Zone
+- Detects pillars at actionable distance
+- Main trigger for avoidance maneuvers
+
+**Function:**  
+Decide whether to turn left or right based on detected color
+
+---
+
+#### 3. Lower ROI — Stability & Filtering
+- Filters out floor noise and irrelevant detections
+- Helps prevent false positives
+
+**Function:**  
+Ensure that only valid objects are considered
+
+---
+
+### ⚙️ Detection Strategy
+
+When multiple objects are detected:
+- The system selects the **object with the largest area**
+- This ensures the robot reacts to the closest and most relevant obstacle
+
+Additionally:
+- A **timing window (~300 ms)** is applied to prevent repeated triggers
+- Detection is temporarily disabled during critical maneuvers (e.g., narrow corridor or emergency states)
+
+---
+
+### ⚠️ Trade-offs
+
+| Decision | Advantage | Limitation |
+|---------|----------|----------|
+| Use of ROIs | Reduced noise and faster decisions | Requires manual tuning |
+| Largest-area selection | Prioritizes closest object | May ignore smaller relevant objects |
+| Single camera system | Simpler integration | No redundancy |
+
+---
+
+### ✅ Results
+
+After implementing the ROI-based strategy:
+- Detection became more stable under different lighting conditions
+- False positives were significantly reduced
+- Reaction time improved
+- The robot achieved more consistent obstacle avoidance
+
+---
+
+### 🧠 Engineering Insight
+
+The key improvement was not the sensor itself, but **how the information was processed**.
+
+By limiting the data to relevant regions, the system became:
+- more efficient
+- more predictable
+- easier to control
+
+This approach demonstrates that performance gains can be achieved not only by adding hardware, but by improving **data interpretation and system design**.
+---
+### 🅿️ Parking Strategy
+
+After completing the three required laps in the Obstacle Challenge, the robot must perform a **parallel parking maneuver** inside the designated magenta parking zone.
+
+Although the final implementation is still under refinement, the parking system has been designed based on the following engineering approach:
+
+---
+
+### 🧩 Detection Strategy
+
+The robot will use a combination of:
+- **Ultrasonic sensors (HC-SR04)** to detect the parking space boundaries
+- **Camera (HuskyLens)** to assist in identifying the parking area region if visual cues are available
+
+The parking zone is expected to be detected based on:
+- Increased lateral distance (gap between obstacles)
+- Reduced frontal obstruction
+- Optional visual confirmation (color or structure)
+
+---
+
+### ⚙️ Maneuver Plan
+
+The parking maneuver is divided into three phases:
+
+#### 1. Alignment Phase
+- The robot positions itself parallel to the parking zone
+- Uses PID control to maintain a stable distance from the wall
+
+---
+
+#### 2. Entry Phase
+- The robot performs a controlled reverse or forward turning maneuver
+- Steering angle is adjusted to follow a curved trajectory into the parking space
+
+---
+
+#### 3. Correction Phase
+- Small forward/backward adjustments
+- Uses ultrasonic feedback to center the robot within the space
+
+---
+
+### ⚠️ Challenges Identified
+
+- Limited space relative to robot dimensions
+- Sensor noise at close range (<10 cm)
+- Need for precise timing and steering control
+
+---
+
+### 🔧 Planned Solutions
+
+- Use reduced speed during parking (PWM < 110)
+- Apply fixed-time steering sequences combined with sensor feedback
+- Implement threshold-based stopping conditions using ultrasonic distances
+
+---
+
+### 🧠 Engineering Consideration
+
+The parking system is designed to prioritize **repeatability over speed**, ensuring that the robot can consistently enter the parking zone even under slight variations in position after completing the laps.
+
+This approach reflects a trade-off between complexity and reliability, focusing on a robust maneuver rather than a highly optimized but fragile solution.
+
+---
+
+### 🔁 Future Work
+
+The final implementation will integrate:
+- Real-time feedback loops for dynamic correction
+- Improved detection of the parking zone boundaries
+- Fine-tuning of timing and steering parameters
+
+These updates will be committed to the repository before the final competition submission.
 
 ---
 
