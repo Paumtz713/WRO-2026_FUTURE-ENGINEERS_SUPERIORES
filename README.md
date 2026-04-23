@@ -84,7 +84,7 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
   </tr>
   <tr>
     <td width="260">
-      <img src="T-photos/Paulina.jpeg" width="220">
+      <img src="T-photos/Paulina.jpg" width="220">
     </td>
     <td>
       <b>Age:</b> 21<br><br>
