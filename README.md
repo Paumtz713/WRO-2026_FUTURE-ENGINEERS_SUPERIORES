@@ -33,39 +33,19 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
 
 ---
 
-### 💻 Christopher Pérez Cortés — Programming & Electronics
-
-<div align="center">
-
-| | |
+| Christopher Pérez Cortés — Programming & Electronics ||
 |:--:|:--|
-| <img src="T-photos/Christopher.jpeg" width="260"> | **Age:** 14<br><br>Christopher joined the **Robotics Club** at *Escuela Normal Superior "Profr. Moisés Sáenz Garza"* earlier this year after completing an intensive robotics course. Currently in his third year of middle school, he has quickly developed skills in **electronics, programming (Arduino C++), and 3D modeling (Onshape)**. WRO 2026 is his first international competition. |
-
-</div>
+| <img src="T-photos/Christopher.jpeg" width="220"> | **Age:** 14<br><br>Christopher joined the **Robotics Club** at *Escuela Normal Superior "Profr. Moisés Sáenz Garza"* earlier this year after completing an intensive robotics course. Currently in his third year of middle school, he has quickly developed skills in **electronics, programming (Arduino C++), and 3D modeling (Onshape)**. WRO 2026 is his first international competition. |
 
 ---
 
-### 🔧 Bárbara Daiana García Balboa — Design & Assembly
-
-<div align="center">
-
-| | |
+| Bárbara Daiana García Balboa — Design & Assembly ||
 |:--:|:--|
-| <img src="T-photos/Barbara.jpeg" width="260"> | **Age:** 13<br><br>Bárbara joined the robotics club two months ago after completing two intensive robotics courses. She is responsible for **mechanical design, chassis assembly, and structural testing**. WRO 2026 is her first competition. |
-
-</div>
-
+| <img src="T-photos/Barbara.jpeg" width="220"> | **Age:** 13<br><br>Bárbara joined the robotics club two months ago after completing two intensive robotics courses. She is responsible for **mechanical design, chassis assembly, and structural testing**. WRO 2026 is her first competition. |
 ---
-
-### 🛠️ Paulina Ibarra Martínez — Design & Construction
-
-<div align="center">
-
-| | |
+| Paulina Ibarra Martínez — Design & Construction ||
 |:--:|:--|
-| <img src="T-photos/paulina.jpeg" width="260"> | **Age:** 21<br><br>Paulina brings extensive competition experience to the team. She has participated in **two Mexican Robotics Tournaments** (5th place) and served as junior coach in WRO 2024 (3rd place) and TMR 2025 (1st place nationally). Her role this season focuses on **structural design, component integration, and mentoring the younger members**. |
-
-</div>
+| <img src="T-photos/Paulina.jpeg" width="220"> | **Age:** 21<br><br>Paulina brings extensive competition experience to the team. She has participated in **two Mexican Robotics Tournaments** (5th place) and served as junior coach in WRO 2024 (3rd place) and TMR 2025 (1st place nationally). Her role this season focuses on **structural design, component integration, and mentoring the younger members**. |
 ---
 
 ## 📚 Table of Contents
