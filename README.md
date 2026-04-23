@@ -336,16 +336,6 @@ The Mini 560 step-down is rated at 3 A continuous; our logic rail draws ~640 mA,
 
 ### Wiring Diagram
 
-### 🔌 PCB & Wiring Implementation
-
-<div align="center">
-
-| PCB Design | PCB Schematic | Real Implementation |
-|:--:|:--:|:--:|
-| <img width="250" height="250" src="schemes/PCB.png" /> | <img width="250" height="250" src="schemes/PCB_Schematic.png" /> | <img width="250" height="250" src="T-photos/pcb_real.jpeg" /> |
-
-</div>
-
 > 📁 Full wiring schematic (PDF and PNG) available in [`schemes/`](./schemes/).
 
 **Connection summary:**
@@ -369,7 +359,28 @@ LiPo (7.4 V)
 **I2C bus:** Both the MPU6050 and HuskyLens share the I2C bus (address 0x60 for HuskyLens, 0x68 for MPU6050). No address conflict exists.
 
 ---
+### 🔌 PCB & Wiring Implementation
 
+<div align="center">
+
+| PCB Design | PCB Schematic |
+|:--:|:--:|
+| <img width="350" height="350" src="schemes/PCB.png" /> | <img width="350" height="350" src="schemes/PCB_Schematic.png" /> |
+
+</div>
+---
+
+### 🧠 Engineering Insight
+
+The PCB was designed to centralize all electrical connections and reduce wiring complexity inside the chassis.
+
+Compared to direct wiring, this approach improved:
+
+- Electrical reliability during motion  
+- Faster debugging and maintenance  
+- Reduced cable clutter and connection errors  
+
+This was especially important due to the compact size of the robot and the need for stable sensor readings.
 ### Sensor Selection & Placement
 
 #### HC-SR04 Ultrasonic Sensors (×3)
