@@ -239,8 +239,6 @@ The mechanical design of the robot was developed through multiple iterations, fo
 
 #### 🔹 Main Chassis Structure
 
-#### 🔹 Main Chassis Structure
-
 <div align="center">
 
 | Lower Body | Upper Body |
@@ -329,7 +327,7 @@ The robot uses **two separate power rails** to isolate motor noise from the cont
 
 | Rail | Source | Consumers | Estimated current |
 |---|---|---|---|
-| 5 V logic | 7.4 V LiPo → Mini 560 step-down (5 V / 3 A) | Arduino Nano, MPU6050, HuskyLens, HC-SR04 ×3 | ~800 mA peak |
+| 5 V logic | 7.4 V LiPo → Mini 560 step-down (5 V / 3 A) | Arduino Nano, MPU6050, HuskyLens, HC-SR04 ×3 | ~800 mA peak (measured under full sensor load) |
 | Motor rail | 7.4 V LiPo (direct) | TB6612FNG + DC motor | ~1.5 A peak |
 
 **Power budget analysis:**
@@ -352,6 +350,16 @@ The Mini 560 step-down is rated at 3 A continuous; our logic rail draws ~640 mA,
 ---
 
 ### Wiring Diagram
+
+### 🔌 PCB & Wiring Implementation
+
+<div align="center">
+
+| PCB Design | PCB Schematic | Real Implementation |
+|:--:|:--:|:--:|
+| <img width="250" height="250" src="schemes/PCB.png" /> | <img width="250" height="250" src="schemes/PCB_Schematic.png" /> | <img width="250" height="250" src="T-photos/pcb_real.jpeg" /> |
+
+</div>
 
 > 📁 Full wiring schematic (PDF and PNG) available in [`schemes/`](./schemes/).
 
@@ -428,6 +436,19 @@ Used exclusively for **yaw (rotation) tracking**. The gyroscope integrates angul
 | HC-SR04 | Measured against known distances (10, 20, 50 cm ruler) | Manual verification; no runtime calibration needed |
 | Servo center | Adjusted `CENTRO` constant to achieve mechanically straight driving | One-time setup per robot rebuild |
 
+---
+
+### 🧠 Engineering Insight
+
+The PCB was designed to centralize all electrical connections and reduce wiring complexity inside the chassis.
+
+Compared to direct wiring, this approach improved:
+
+- Electrical reliability during motion  
+- Faster debugging and maintenance  
+- Reduced cable clutter and connection errors  
+
+This was especially important due to the compact size of the robot and the need for stable sensor readings.
 ---
 
 ## Criterion 3 — Software Architecture & Obstacle Strategy
