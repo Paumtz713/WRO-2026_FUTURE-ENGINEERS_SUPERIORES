@@ -21,15 +21,22 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
 
 ## 👥 Team Members
 
-### 🧑‍🏫 Eduardo Alvarado González — Coach & Founder
-
-<div align="center">
-
-| | |
-|:--:|:--|
-| <img src="TEAM_PHOTOS/eduardo.jpeg" width="260"> | **Age:** 40<br><br>An engineer and professor who founded **Los Grises Superiores** in 2014. Under his leadership, the team has achieved outstanding results at national and international level in WRO and the Mexican Robotics Tournament (TMR). |
-
-</div>
+<table align="center">
+  <tr>
+    <th colspan="2" align="left">
+      👨‍🏫 Eduardo Alvarado González — Coach & Founder
+    </th>
+  </tr>
+  <tr>
+    <td width="260">
+      <img src="T-photos/Coach_Eduardo.png" width="220">
+    </td>
+    <td>
+      <b>Age:</b> 40<br><br>
+      An engineer and professor who founded <b>Los Grises Superiores</b> in 2014. Under his leadership, the team has achieved outstanding results at national and international level in WRO and the Mexican Robotics Tournament (TMR).
+    </td>
+  </tr>
+</table>
 
 ---
 
