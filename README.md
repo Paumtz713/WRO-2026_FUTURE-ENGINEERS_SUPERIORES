@@ -185,51 +185,64 @@ For 2026 we migrated to a **fully custom 3D-printed chassis** designed in **Onsh
 </div>
 
 The mechanical design of the robot was developed through multiple iterations, focusing on improving structural rigidity, component integration, and maneuverability.
-
 ---
-
 #### 🔹 Structural Components (3D Design)
 
 The chassis is composed of multiple 3D-printed components designed in Onshape:
 
-**Central Sensor Mount**
-![Central Sensor Mount](models/Soporte_sensor_central.png)
+<p align="center">
+  <img src="models/Soporte_sensor_central.png" width="250">
+  <img src="models/Soporte_sensores_laterales.png" width="250">
+  <img src="models/Soporte_trasero.png" width="250">
+</p>
 
-**Side Sensor Mounts**
-![Side Sensor Mounts](models/Soporte_sensores_laterales.png)
+<p align="center">
+  <b>Central Sensor Mount</b> &nbsp;&nbsp;&nbsp;
+  <b>Side Sensor Mounts</b> &nbsp;&nbsp;&nbsp;
+  <b>Rear Support</b>
+</p>
 
-**Rear Support Structure**
-![Rear Support](models/Soporte_trasero.png)
+<p align="center">
+  <img src="models/Soportes_externos.png" width="250">
+  <img src="models/Soportes_internos.png" width="250">
+</p>
 
-**External Supports**
-![External Supports](models/Soportes_externos.png)
-
-**Internal Supports**
-![Internal Supports](models/Soportes_internos.png)
-
+<p align="center">
+  <b>External Supports</b> &nbsp;&nbsp;&nbsp;
+  <b>Internal Supports</b>
+</p>
 ---
-
 #### 🔹 Main Chassis Structure
 
-**Lower Body**
-![Lower Body](models/Cuerpo_inferior.png)
+<p align="center">
+  <img src="models/Cuerpo_inferior.png" width="400">
+  <img src="models/Cuerpo_superior.png" width="400">
+</p>
 
-**Upper Body**
-![Upper Body](models/Cuerpo_superior.png)
-
+<p align="center">
+  <b>Lower Body</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <b>Upper Body</b>
+</p>
 ---
-
 #### 🔹 Steering Component
 
-**Directional Module**
-![Steering Module](models/Direccional.png)
+<p align="center">
+  <img src="models/Direccional.png" width="400">
+</p>
 
+<p align="center">
+  <b>Directional Module</b>
+</p>
 ---
-
 #### 🔹 Complete Assembly
 
-**Full Base Structure**
-![Base Structure](models/Estructura_base.png)
+<p align="center">
+  <img src="models/Estructura_base.png" width="600">
+</p>
+
+<p align="center">
+  <b>Full Base Structure</b>
+</p>
 
 ---
 
