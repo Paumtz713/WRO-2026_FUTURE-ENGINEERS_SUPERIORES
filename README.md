@@ -208,32 +208,25 @@ The mechanical design of the robot was developed through multiple iterations, fo
 
 #### 🔹 Main Chassis Structure
 
-<p align="center">
-  <span style="display:inline-block; width:300px; height:300px;">
-    <img src="models/Cuerpo_inferior.png" style="max-width:100%; max-height:100%;">
-  </span>
-  <span style="display:inline-block; width:300px; height:300px;">
-    <img src="models/Cuerpo_superior.png" style="max-width:100%; max-height:100%;">
-  </span>
-</p>
+#### 🔹 Main Chassis Structure
 
-<p align="center">
-  <b>Lower Body</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <b>Upper Body</b>
-</p>
+<div align="center">
 
+| Lower Body | Upper Body |
+|:--:|:--:|
+| <img width="350" height="350" src="models/Cuerpo_inferior.png" /> | <img width="350" height="350" src="models/Cuerpo_superior.png" /> |
+
+</div>
 ---
 #### 🔹 Complete Assembly
 
-<p align="center">
-  <span style="display:inline-block; width:500px; height:500px;">
-    <img src="models/Estructura_base.png" style="max-width:100%; max-height:100%;">
-  </span>
-</p>
+<div align="center">
 
-<p align="center">
-  <b>Full Base Structure</b>
-</p>
+| Full Base Structure |
+|:--:|
+| <img width="500" height="500" src="models/Estructura_base.png" /> |
+
+</div>
 
 ---
 #### 🔹 Main Chassis Structure
@@ -254,15 +247,13 @@ The mechanical design of the robot was developed through multiple iterations, fo
 ---
 #### 🔹 Steering Component
 
-<p align="center">
-  <span style="display:inline-block; width:300px; height:300px;">
-    <img src="models/Direccional.png" style="max-width:100%; max-height:100%;">
-  </span>
-</p>
+<div align="center">
 
-<p align="center">
-  <b>Directional Module</b>
-</p>
+| Directional Module |
+|:--:|
+| <img width="350" height="350" src="models/Direccional.png" /> |
+
+</div>
 ---
 
 ### Traction System
