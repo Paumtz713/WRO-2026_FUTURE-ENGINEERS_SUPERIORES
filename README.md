@@ -184,6 +184,65 @@ For 2026 we migrated to a **fully custom 3D-printed chassis** designed in **Onsh
 *Fig. 1 — Onshape CAD render of Version 3 chassis*
 </div>
 
+The mechanical design of the robot was developed through multiple iterations, focusing on improving structural rigidity, component integration, and maneuverability.
+
+---
+
+#### 🔹 Structural Components (3D Design)
+
+The chassis is composed of multiple 3D-printed components designed in Onshape:
+
+**Central Sensor Mount**
+![Central Sensor Mount](models/Soporte_sensor_central.png)
+
+**Side Sensor Mounts**
+![Side Sensor Mounts](models/Soporte_sensores_laterales.png)
+
+**Rear Support Structure**
+![Rear Support](models/Soporte_trasero.png)
+
+**External Supports**
+![External Supports](models/Soportes_externos.png)
+
+**Internal Supports**
+![Internal Supports](models/Soportes_internos.png)
+
+---
+
+#### 🔹 Main Chassis Structure
+
+**Lower Body**
+![Lower Body](models/Cuerpo_inferior.png)
+
+**Upper Body**
+![Upper Body](models/Cuerpo_superior.png)
+
+---
+
+#### 🔹 Steering Component
+
+**Directional Module**
+![Steering Module](models/Direccional.png)
+
+---
+
+#### 🔹 Complete Assembly
+
+**Full Base Structure**
+![Base Structure](models/Estructura_base.png)
+
+---
+
+### 🧠 Engineering Insight
+
+Each component was designed to fulfill a specific function within the system:
+
+- Sensor mounts ensure precise positioning and stable readings  
+- Internal supports increase rigidity under load  
+- The two-layer chassis improves component distribution and lowers the center of gravity  
+- Modular parts allow easier iteration and replacement  
+
+This modular approach enabled rapid iteration and adaptation based on testing results, improving both performance and reliability.
 All chassis STL files are available in the [`models/`](./models/) directory.
 
 ---
