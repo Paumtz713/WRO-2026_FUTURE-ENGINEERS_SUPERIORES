@@ -35,7 +35,7 @@ An engineer and professor who founded **Los Grises Superiores** in 2014. Under h
 **Age:** 14
 
 <div align="center">
-  <img width="300" height="350" alt="Christopher Pérez photo" src="https://github.com/christopherperezcortes/WRO-2026-Future-Engineers/blob/463589c5e9a747a83fb24a68542e14f249a2b56f/TEAM%20PHOTOS/Christopher%20P%C3%A9rez%20photo.jpeg" />
+  <img width="250" height="350" alt="Christopher Pérez photo" src="https://github.com/christopherperezcortes/WRO-2026-Future-Engineers/blob/463589c5e9a747a83fb24a68542e14f249a2b56f/TEAM%20PHOTOS/Christopher%20P%C3%A9rez%20photo.jpeg" />
 </div>
 
 Christopher joined the **Robotics Club** at *Escuela Normal Superior "Profr. Moisés Sáenz Garza"* earlier this year after completing an intensive robotics course. Currently in his third year of middle school, he has quickly developed skills in **electronics, programming (Arduino C++), and 3D modeling (Onshape)**. WRO 2026 is his first international competition.
@@ -46,7 +46,7 @@ Christopher joined the **Robotics Club** at *Escuela Normal Superior "Profr. Moi
 **Age:** 13
 
 <div align="center">
-  <img width="300" height="350" alt="Bárbara Daiana photo" src="https://github.com/christopherperezcortes/WRO-2026-Future-Engineers/blob/5598fd96e5c1175dc8433f93cdafd729e9609d09/TEAM%20PHOTOS/B%C3%A1rbara%20Daiana%20photo.jpeg" />
+  <img width="300" height="300" alt="Bárbara Daiana photo" src="https://github.com/christopherperezcortes/WRO-2026-Future-Engineers/blob/5598fd96e5c1175dc8433f93cdafd729e9609d09/TEAM%20PHOTOS/B%C3%A1rbara%20Daiana%20photo.jpeg" />
 </div>
 
 Bárbara joined the robotics club two months ago after completing two intensive robotics courses. She is responsible for **mechanical design, chassis assembly, and structural testing**. WRO 2026 is her first competition.
@@ -57,7 +57,7 @@ Bárbara joined the robotics club two months ago after completing two intensive 
 **Age:** 21
 
 <div align="center">
-  <img width="300" height="350" alt="Paulina Martinez photo" src="https://github.com/user-attachments/assets/86413c8a-610a-4270-a92d-cb3ed135d41b" />
+  <img width="300" height="300" alt="Paulina Martinez photo" src="https://github.com/user-attachments/assets/86413c8a-610a-4270-a92d-cb3ed135d41b" />
 </div>
 
 Paulina brings extensive competition experience to the team. She has participated in **two Mexican Robotics Tournaments** (5th place) and served as junior coach in WRO 2024 (3rd place) and TMR 2025 (1st place nationally). Her role this season focuses on **structural design, component integration, and mentoring the younger members**.
@@ -188,37 +188,21 @@ The mechanical design of the robot was developed through multiple iterations, fo
 ---
 #### 🔹 Structural Components (3D Design)
 
-<p align="center">
-  <span style="display:inline-block; width:250px; height:250px;">
-    <img src="models/Soporte_sensor_central.png" style="max-width:100%; max-height:100%;">
-  </span>
-  <span style="display:inline-block; width:250px; height:250px;">
-    <img src="models/Soporte_sensores_laterales.png" style="max-width:100%; max-height:100%;">
-  </span>
-  <span style="display:inline-block; width:250px; height:250px;">
-    <img src="models/Soporte_trasero.png" style="max-width:100%; max-height:100%;">
-  </span>
-</p>
+<div align="center">
 
-<p align="center">
-  <b>Central Sensor Mount</b> &nbsp;&nbsp;&nbsp;
-  <b>Side Sensor Mounts</b> &nbsp;&nbsp;&nbsp;
-  <b>Rear Support</b>
-</p>
+| Central Sensor Mount | Side Sensor Mounts | Rear Support |
+|:--:|:--:|:--:|
+| <img width="250" height="250" alt="Central Sensor Mount" src="models/Soporte_sensor_central.png" /> | <img width="250" height="250" alt="Side Sensor Mounts" src="models/Soporte_sensores_laterales.png" /> | <img width="250" height="250" alt="Rear Support" src="models/Soporte_trasero.png" /> |
 
-<p align="center">
-  <span style="display:inline-block; width:250px; height:250px;">
-    <img src="models/Soportes_externos.png" style="max-width:100%; max-height:100%;">
-  </span>
-  <span style="display:inline-block; width:250px; height:250px;">
-    <img src="models/Soportes_internos.png" style="max-width:100%; max-height:100%;">
-  </span>
-</p>
+| External Supports | Internal Supports | Directional Module |
+|:--:|:--:|:--:|
+| <img width="250" height="250" alt="External Supports" src="models/Soportes_externos.png" /> | <img width="250" height="250" alt="Internal Supports" src="models/Soportes_internos.png" /> | <img width="250" height="250" alt="Directional Module" src="models/Direccional.png" /> |
 
-<p align="center">
-  <b>External Supports</b> &nbsp;&nbsp;&nbsp;
-  <b>Internal Supports</b>
-</p>
+| Lower Body | Upper Body | Full Base Structure |
+|:--:|:--:|:--:|
+| <img width="250" height="250" alt="Lower Body" src="models/Cuerpo_inferior.png" /> | <img width="250" height="250" alt="Upper Body" src="models/Cuerpo_superior.png" /> | <img width="250" height="250" alt="Full Base Structure" src="models/Estructura_base.png" /> |
+
+</div>
 
 ---
 
