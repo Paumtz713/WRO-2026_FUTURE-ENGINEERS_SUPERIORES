@@ -258,22 +258,7 @@ The mechanical design of the robot was developed through multiple iterations, fo
 </div>
 
 ---
-#### 🔹 Main Chassis Structure
 
-<p align="center">
-  <span style="display:inline-block; width:300px; height:300px;">
-    <img src="models/Cuerpo_inferior.png" style="max-width:100%; max-height:100%;">
-  </span>
-  <span style="display:inline-block; width:300px; height:300px;">
-    <img src="models/Cuerpo_superior.png" style="max-width:100%; max-height:100%;">
-  </span>
-</p>
-
-<p align="center">
-  <b>Lower Body</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <b>Upper Body</b>
-</p>
----
 #### 🔹 Steering Component
 
 <div align="center">
