@@ -24,44 +24,48 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
 ### 🧑‍🏫 Eduardo Alvarado González — Coach & Founder
 
 <div align="center">
-<img width="300" height="300" alt="Eduardo Gonzalez" src="https://github.com/user-attachments/assets/20ccfb81-0bc1-4147-aa43-fefe649a55c0" />
-</div>
 
-An engineer and professor who founded **Los Grises Superiores** in 2014. Under his leadership, the team has achieved outstanding results at national and international level in WRO and the Mexican Robotics Tournament (TMR).
+| | |
+|:--:|:--|
+| <img src="TEAM_PHOTOS/eduardo.jpg" width="260"> | **Age:** 40<br><br>An engineer and professor who founded **Los Grises Superiores** in 2014. Under his leadership, the team has achieved outstanding results at national and international level in WRO and the Mexican Robotics Tournament (TMR). |
+
+</div>
 
 ---
 
 ### 💻 Christopher Pérez Cortés — Programming & Electronics
-**Age:** 14
 
 <div align="center">
-  <img width="250" height="350" alt="Christopher Pérez photo" src="https://github.com/christopherperezcortes/WRO-2026-Future-Engineers/blob/463589c5e9a747a83fb24a68542e14f249a2b56f/TEAM%20PHOTOS/Christopher%20P%C3%A9rez%20photo.jpeg" />
-</div>
 
-Christopher joined the **Robotics Club** at *Escuela Normal Superior "Profr. Moisés Sáenz Garza"* earlier this year after completing an intensive robotics course. Currently in his third year of middle school, he has quickly developed skills in **electronics, programming (Arduino C++), and 3D modeling (Onshape)**. WRO 2026 is his first international competition.
+| | |
+|:--:|:--|
+| <img src="TEAM_PHOTOS/christopher.jpg" width="260"> | **Age:** 14<br><br>Christopher joined the **Robotics Club** at *Escuela Normal Superior "Profr. Moisés Sáenz Garza"* earlier this year after completing an intensive robotics course. Currently in his third year of middle school, he has quickly developed skills in **electronics, programming (Arduino C++), and 3D modeling (Onshape)**. WRO 2026 is his first international competition. |
+
+</div>
 
 ---
 
 ### 🔧 Bárbara Daiana García Balboa — Design & Assembly
-**Age:** 13
 
 <div align="center">
-  <img width="300" height="300" alt="Bárbara Daiana photo" src="https://github.com/christopherperezcortes/WRO-2026-Future-Engineers/blob/5598fd96e5c1175dc8433f93cdafd729e9609d09/TEAM%20PHOTOS/B%C3%A1rbara%20Daiana%20photo.jpeg" />
-</div>
 
-Bárbara joined the robotics club two months ago after completing two intensive robotics courses. She is responsible for **mechanical design, chassis assembly, and structural testing**. WRO 2026 is her first competition.
+| | |
+|:--:|:--|
+| <img src="TEAM_PHOTOS/barbara.jpg" width="260"> | **Age:** 13<br><br>Bárbara joined the robotics club two months ago after completing two intensive robotics courses. She is responsible for **mechanical design, chassis assembly, and structural testing**. WRO 2026 is her first competition. |
+
+</div>
 
 ---
 
 ### 🛠️ Paulina Ibarra Martínez — Design & Construction
-**Age:** 21
 
 <div align="center">
-  <img width="300" height="300" alt="Paulina Martinez photo" src="https://github.com/user-attachments/assets/86413c8a-610a-4270-a92d-cb3ed135d41b" />
+
+| | |
+|:--:|:--|
+| <img src="TEAM_PHOTOS/paulina.jpg" width="260"> | **Age:** 21<br><br>Paulina brings extensive competition experience to the team. She has participated in **two Mexican Robotics Tournaments** (5th place) and served as junior coach in WRO 2024 (3rd place) and TMR 2025 (1st place nationally). Her role this season focuses on **structural design, component integration, and mentoring the younger members**. |
+
 </div>
-
-Paulina brings extensive competition experience to the team. She has participated in **two Mexican Robotics Tournaments** (5th place) and served as junior coach in WRO 2024 (3rd place) and TMR 2025 (1st place nationally). Her role this season focuses on **structural design, component integration, and mentoring the younger members**.
-
 ---
 
 ## 📚 Table of Contents
