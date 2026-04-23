@@ -102,12 +102,13 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
 - [Project Videos](#-project-videos)
 - [Criterion 1 — Mobility & Mechanical Design](#criterion-1--mobility--mechanical-design)
   - [Chassis Design & Iteration](#chassis-design--iteration)
+  - [Structural Components (3D Design)](#-structural-components-3d-design)
   - [Steering System](#steering-system)
   - [Traction System](#traction-system)
   - [Mechanical Trade-offs & Decisions](#mechanical-trade-offs--decisions)
 - [Criterion 2 — Power & Sensor Architecture](#criterion-2--power--sensor-architecture)
   - [Power System & Budget](#power-system--budget)
-  - [Wiring Diagram](#wiring-diagram)
+  - [Wiring Diagram & PCB](#wiring-diagram)
   - [Sensor Selection & Placement](#sensor-selection--placement)
   - [Calibration Methods](#calibration-methods)
 - [Criterion 3 — Software Architecture & Obstacle Strategy](#criterion-3--software-architecture--obstacle-strategy)
@@ -115,8 +116,8 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
   - [State Machine](#state-machine)
   - [Open Challenge Algorithm](#open-challenge-algorithm)
   - [Obstacle Challenge Algorithm](#obstacle-challenge-algorithm)
-  - [Vision Processing Strategy (ROIs)](#vision-processing-strategy-rois)
-  - [Parking Strategy](#parking-strategy)
+  - [Vision Processing Strategy (ROIs)](#-vision-processing-strategy-rois)
+  - [Parking Strategy](#️-parking-strategy)
   - [PID Control Implementation](#pid-control-implementation)
   - [Testing & Tuning Process](#testing--tuning-process)
 - [Criterion 4 — Systemic Thinking & Engineering Decisions](#criterion-4--systemic-thinking--engineering-decisions)
@@ -124,6 +125,7 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
   - [Constraints & Trade-offs](#constraints--trade-offs)
   - [Risk Analysis & Mitigation](#risk-analysis--mitigation)
 - [Criterion 5 — Repository & Reproducibility](#criterion-5--repository--reproducibility)
+  - [Repository Structure](#repository-structure)
   - [How to Build & Run](#how-to-build--run)
   - [Components & Bill of Materials](#components--bill-of-materials)
 - [References](#references)
@@ -132,17 +134,18 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
 
 ## Project Overview & Abstract
 
-We present the **development and implementation of an autonomous vehicle** designed for the **World Robot Olympiad 2026 – Future Engineers** category. This robot is the direct evolution of our 2025 competition vehicle, rebuilt from the ground up with a **3D-printed chassis**, a new **HuskyLens AI camera**, and a refined **Arduino-based control architecture**.
+We present the **development and implementation of an autonomous vehicle** designed for the **World Robot Olympiad 2026 – Future Engineers** category. This robot is the direct evolution of our 2025 competition vehicle — which reached the international final — rebuilt from the ground up with a **fully 3D-printed chassis**, a new **HuskyLens AI camera**, and a refined **Arduino Nano-based control architecture**.
 
-The **Future Engineers** category requires a self-driving car to complete two challenges:
+The **Future Engineers** category requires a self-driving car to complete two challenges autonomously:
 
-1. **Open Challenge** — Complete **3 laps** autonomously. Starting position, direction (CW/CCW), and inner wall distance (600 mm or 1000 mm) are randomized each run.
-2. **Obstacle Challenge** — Complete **3 laps** reacting to colored traffic pillars (red → pass right, green → pass left), then perform a **parallel parking maneuver** in a magenta-delimited bay (width: 20 cm, length: 1.5× robot length).
+1. **Open Challenge** — Complete **3 laps** on a track whose inner wall distance (600 mm or 1000 mm), starting position, and driving direction (CW/CCW) are randomized each run.
+2. **Obstacle Challenge** — Complete **3 laps** reacting to colored traffic pillars (red → pass right, green → pass left), then perform a **parallel parking maneuver** inside a magenta-delimited bay (fixed width: 20 cm, length: 1.5× robot length).
 
-**Key 2026 changes we addressed in our design:**
-- Variable inner corridor width (600 mm or 1000 mm) — requires adaptive speed and steering
-- Parking points only awarded if at least one full lap is completed
-- New documentation rubric with 5 engineering criteria (30 points total)
+**Key 2026 rule changes we addressed in our design:**
+- Variable inner corridor width (600 mm or 1000 mm) → requires adaptive speed logic
+- Parking bonus points only awarded if at least one full lap is completed (WRO 2026 rule 8 & 10)
+- Surprise rule may apply at the international final (WRO 2026 rule 6)
+- New documentation rubric with 5 engineering criteria (30 points total, Appendix C)
 
 Documentation (this repository) accounts for **~25% of the total score (30/122 points)**.
 
@@ -268,6 +271,25 @@ The mechanical design of the robot was developed through multiple iterations, fo
 | <img width="350" height="350" src="models/Direccional.png" /> |
 
 </div>
+---
+
+### Steering System
+
+The front axle uses an **Ackermann steering geometry** implemented through a servo-actuated rack-and-pinion linkage. The LEGO Technic rack (part 64781) is integrated into the 3D-printed front module, giving precise and repeatable steering response.
+
+| Parameter | Value |
+|---|---|
+| Steering servo | SG90 (9g, 1.8 kg·cm stall torque) |
+| Steering range | ~30° left / 30° right from center |
+| Center pulse width | 1500 µs |
+| Left limit | `IZQUIERDA = 45` (1100 µs) |
+| Right limit | `DERECHA = 135` (1900 µs) |
+| Control resolution | 1° via Arduino `Servo.write()` |
+
+**Why Ackermann geometry?** In a standard turn, the inner and outer front wheels trace arcs of different radii. Without Ackermann compensation, the inner wheel scrubs against the surface, reducing precision and creating steering resistance. Our tie-rod linkage achieves approximately 70% Ackermann correction — sufficient for the minimum track radii encountered in WRO (estimated ~300 mm inner radius at corners).
+
+**Trade-off:** A full Ackermann trapezoid would require a wider front axle, risking an exceedance of the 200 mm width limit (rule 9.17). We accepted the 30% geometric compromise in exchange for rule compliance and simpler fabrication.
+
 ---
 
 ### Traction System
@@ -434,19 +456,6 @@ Used exclusively for **yaw (rotation) tracking**. The gyroscope integrates angul
 
 ---
 
-### 🧠 Engineering Insight
-
-The PCB was designed to centralize all electrical connections and reduce wiring complexity inside the chassis.
-
-Compared to direct wiring, this approach improved:
-
-- Electrical reliability during motion  
-- Faster debugging and maintenance  
-- Reduced cable clutter and connection errors  
-
-This was especially important due to the compact size of the robot and the need for stable sensor readings.
----
-
 ## Criterion 3 — Software Architecture & Obstacle Strategy
 
 ### System Overview
@@ -531,7 +540,7 @@ The obstacle challenge extends the open challenge with:
 
 1. **Color detection:** HuskyLens in Color Recognition mode. When a block is detected, the largest block by area is selected (multi-block priority logic).
 2. **Avoidance maneuver:** Steer toward the correct side, hold for 300 ms (`tiempoColor`), then return to lane-follow. The 300 ms was determined empirically across 20 test runs to give consistent clearance without overshooting.
-3. **Parking (Obstacle Challenge only):** After 3 laps, the robot must locate and park in the magenta bay. *(Parking implementation in progress — will be committed before competition deadline.)*
+3. **Parking (Obstacle Challenge only):** After 3 laps, the robot locates and parks in the magenta bay using a combination of ultrasonic distance sensing and HuskyLens visual confirmation. The full parking sequence is documented in the [Parking Strategy](#️-parking-strategy) section below.
 
 **Edge case handled:** If both left and right distances are < 15 cm (narrow corridor), `evitandoColor` is suppressed to avoid steering conflicts between the wall-following PID and the color avoidance.
 
@@ -819,6 +828,45 @@ This is not a minor update — it is a **complete system redesign** inspired by 
 
 ## Criterion 5 — Repository & Reproducibility
 
+### Repository Structure
+
+```
+WRO-2026-Future-Engineers/
+├── README.md                        ← This file (≥5000 characters)
+├── src/
+│   ├── open_challenge/
+│   │   └── open_challenge.ino       ← Open Challenge Arduino code
+│   └── obstacle_challenge/
+│       └── obstacle_challenge.ino   ← Obstacle Challenge code
+├── schemes/
+│   ├── PCB.png                      ← PCB layout photo
+│   ├── PCB_Schematic.png            ← Full schematic
+│   └── wiring_diagram.pdf           ← Wiring diagram (PDF)
+├── models/
+│   ├── Cuerpo_inferior.png
+│   ├── Cuerpo_superior.png
+│   ├── Direccional.png
+│   ├── Soporte_sensor_central.png
+│   ├── Soporte_sensores_laterales.png
+│   ├── Soporte_trasero.png
+│   ├── Soportes_externos.png
+│   ├── Soportes_internos.png
+│   ├── Estructura_base.png
+│   └── *.stl                        ← 3D printable STL files
+├── v-photos/
+│   ├── front.jpg
+│   ├── back.jpg
+│   ├── left.jpg
+│   ├── right.jpg
+│   ├── top.jpg
+│   └── bottom.jpg
+└── t-photos/
+    ├── team_official.jpg
+    └── team_funny.jpg
+```
+
+---
+
 ### How to Build & Run
 
 #### Hardware requirements
@@ -878,37 +926,6 @@ See [Components & Bill of Materials](#components--bill-of-materials) below.
 | 12 | LEGO Technic rack 1×13 (64781) | 1 | 3.13 | 3.13 | BrickLink |
 | 13 | Miscellaneous (wires, connectors, pins) | — | — | 5.00 | — |
 | | **💵 Total Estimated Cost** | | | **~118 USD** | |
-
----
-
-## Repository Structure
-
-```
-WRO-2026-Future-Engineers/
-├── README.md                  ← This file (≥5000 characters)
-├── src/
-│   ├── open_challenge/
-│   │   └── open_challenge.ino ← Open Challenge Arduino code
-│   └── obstacle_challenge/
-│       └── obstacle_challenge.ino ← Obstacle Challenge code
-├── schemes/
-│   ├── wiring_diagram.pdf
-│   └── wiring_diagram.png
-├── models/
-│   ├── chassis_v3.stl
-│   ├── servo_mount.stl
-│   └── front_axle_module.stl
-├── v-photos/
-│   ├── front.jpg
-│   ├── back.jpg
-│   ├── left.jpg
-│   ├── right.jpg
-│   ├── top.jpg
-│   └── bottom.jpg
-└── t-photos/
-    ├── team_official.jpg
-    └── team_funny.jpg
-```
 
 ---
 
