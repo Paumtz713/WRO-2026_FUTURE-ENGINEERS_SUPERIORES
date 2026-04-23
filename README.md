@@ -210,7 +210,11 @@ For 2026 we migrated to a **fully custom 3D-printed chassis** designed in **Onsh
 **Iteration history:**
 - **Version 1 (February 2026):** Initial flat-plate chassis. Problem: insufficient rigidity when servo torque was applied; steering linkage deflected under load.
 - **Version 2 (March 2026):** Added triangular gussets at servo mount and increased wall thickness from 2 mm to 3 mm. Weight increased by ~40 g but deflection was eliminated.
-- **Version 3 (April 2026, current):** Reduced overall length by 18 mm to improve cornering clearance in the narrow 600 mm corridor; relocated the Arduino Nano to a lower center of gravity position.
+- **Version 3 (April 2026, current):** Reduced overall length by 18 mm to improve cornering clearance in the narrow 600 mm corridor; relocated the Arduino Nano to a lower center of gravity position. Reprinted in the team's final color (grey).
+
+> ⚠️ **Problem 2 — Print shrinkage after color change:** When Version 3 was reprinted in the final grey color PLA filament (different brand/batch than the prototype), the robot would not move forward — the motor was running but the drivetrain was seized. After inspection, we found that the dimensional tolerances of the new print were slightly tighter, causing the rear axle housing to bind against the rotating shaft.
+>
+> **Solution:** We used fine-grit sandpaper to gradually sand the interior of the axle housing bore until the shaft rotated freely without play. We now perform a fit-check on all rotating interfaces immediately after each print before full assembly. This problem reinforced the importance of **printing tolerance testing samples** before committing to a full chassis reprint.
 
 <div align="center">
 <img width="500" height="500" alt="Chassis CAD" src="https://github.com/christopherperezcortes/IMAGENES/blob/f4b7efd2b9f949eae8dd6a845992508e85c39529/Captura%20de%20pantalla%202026-04-10%20122143.png" />
@@ -330,12 +334,16 @@ We tested 1:20 and 1:50 gear options. At 1:20 the robot was too fast to react to
 
 ### Power System & Budget
 
-The robot uses **two separate power rails** to isolate motor noise from the control electronics:
+The robot uses **two Steren Li-ion 3.7 V / 2800 mAh cells connected in series**, providing a nominal **7.4 V / 2800 mAh** supply. This series pack feeds two separate power rails to isolate motor switching noise from the control electronics:
 
 | Rail | Source | Consumers | Estimated current |
 |---|---|---|---|
-| 5 V logic | 7.4 V LiPo → Mini 560 step-down (5 V / 3 A) | Arduino Nano, MPU6050, HuskyLens, HC-SR04 ×3 | ~800 mA peak (measured under full sensor load) |
-| Motor rail | 7.4 V LiPo (direct) | TB6612FNG + DC motor | ~1.5 A peak |
+| 5 V logic | 7.4 V series pack → Mini 560 step-down (5 V / 3 A) | Arduino Nano, MPU6050, HuskyLens, HC-SR04 ×3 | ~640 mA peak |
+| Motor rail | 7.4 V series pack (direct) | TB6612FNG + DC motor | ~1.5 A peak |
+
+**Why two cells in series?** Each Steren cell delivers 3.7 V nominal (4.2 V fully charged). Two in series give 7.4 V nominal — enough to power the motor driver directly and allow the Mini 560 regulator to step down to a stable 5 V for the logic rail.
+
+**Estimated runtime:** At an average draw of ~2.1 A total (640 mA logic + 1500 mA motor), a 2800 mAh pack yields approximately **80 minutes** of continuous operation — well above the 3-minute per-round limit.
 
 **Power budget analysis:**
 
@@ -352,7 +360,7 @@ The robot uses **two separate power rails** to isolate motor noise from the cont
 
 The Mini 560 step-down is rated at 3 A continuous; our logic rail draws ~640 mA, giving a **safety margin of ~4.7×**. This margin accounts for HuskyLens inference spikes and servo stall.
 
-**Failure mode considered:** If the LiPo voltage drops below ~6.5 V, the Mini 560 drops out of regulation. We added a **mini digital voltmeter** visible on the chassis to monitor battery state before each run.
+**Failure mode considered:** When each Li-ion cell discharges below ~3.2 V (pack voltage ~6.4 V), the Mini 560 drops out of regulation and the motor driver performance degrades. We added a **mini digital voltmeter** mounted visibly on the chassis to monitor the pack voltage before each run. We replace or recharge cells when the pack reads below 6.8 V.
 
 ---
 
@@ -363,7 +371,7 @@ The Mini 560 step-down is rated at 3 A continuous; our logic rail draws ~640 mA,
 **Connection summary:**
 
 ```
-LiPo (7.4 V)
+2× Steren Li-ion 3.7V 2800mAh (series → 7.4 V)
     ├── Mini 560 Step-Down → 5 V rail
     │       ├── Arduino Nano (5 V pin)
     │       ├── MPU6050 (I2C: SDA→A4, SCL→A5)
@@ -392,17 +400,17 @@ LiPo (7.4 V)
 </div>
 ---
 
-### 🧠 Engineering Insight
+### 🧠 Engineering Insight — PCB & Iteration Problems
 
-The PCB was designed to centralize all electrical connections and reduce wiring complexity inside the chassis.
+The PCB was designed to centralize all electrical connections and reduce wiring complexity inside the chassis. Compared to direct wiring, this approach improved electrical reliability during motion, faster debugging, and reduced cable clutter — especially important given the compact chassis dimensions.
 
-Compared to direct wiring, this approach improved:
+**However, the first PCB assembly revealed a critical problem:**
 
-- Electrical reliability during motion  
-- Faster debugging and maintenance  
-- Reduced cable clutter and connection errors  
+> ⚠️ **Problem 1 — Excessive solder on PCB traces:** After soldering all components for the first time, the ultrasonic sensors returned inconsistent and erratic distance readings. Distances fluctuated randomly even when the robot was stationary in front of a fixed wall. After inspection, we identified that **excess solder had created unintended bridges between adjacent signal traces**, causing cross-talk between the TRIG and ECHO pins of different sensors.
+>
+> **Solution:** We used desoldering braid to remove the excess solder from the affected joints and re-soldered with a controlled amount. After cleaning the board, sensor readings stabilized and the problem was fully resolved. This taught us to work with thinner solder wire and lower iron temperature for fine-pitch PCB work.
 
-This was especially important due to the compact size of the robot and the need for stable sensor readings.
+This iteration — though frustrating — directly improved the overall electrical reliability of the robot and our team's soldering skills.
 ### Sensor Selection & Placement
 
 #### HC-SR04 Ultrasonic Sensors (×3)
@@ -819,10 +827,11 @@ This is not a minor update — it is a **complete system redesign** inspired by 
 |---|---|---|---|
 | IMU drift causing wrong lap count | Medium | High | Accumulated yaw with 1080° threshold (not turn counting alone) |
 | HuskyLens misdetects pillar color | Low | High | Largest-area block selection; 300 ms avoidance timeout |
-| Battery voltage drop during run | Medium | Medium | Pre-run voltmeter check; separate motor and logic rails |
+| Battery voltage drop during run | Medium | Medium | Pre-run voltmeter check; separate motor and logic rails; cells replaced below 6.8 V |
 | Narrow corridor causes wall collision | Medium | High | Adaptive speed reduction + emergency steering overrides |
 | Servo center offset causes drift | Low | Medium | IMU gyro correction on straight sections |
-| Chassis deformation under impact | Low | Medium | 3 mm wall thickness, triangular gussets at stress points |
+| PCB solder bridges (✅ resolved) | — | High | Resolved in v1 PCB: removed excess solder with braid; now verified with multimeter continuity test before assembly |
+| Chassis binding after reprint (✅ resolved) | — | High | Resolved in v3: sanded axle housing bore; fit-check protocol added to post-print checklist |
 
 ---
 
@@ -920,12 +929,12 @@ See [Components & Bill of Materials](#components--bill-of-materials) below.
 | 6 | Mini 560 Step-Down Regulator (5V/3A) | 1 | 4.00 | 4.00 | [Buy](https://uelectronics.com/producto/mini-560-regulador-step-down/) |
 | 7 | SG90 Servo Motor | 1 | 3.00 | 3.00 | Local supplier |
 | 8 | DC Gearmotor (RC car base) | 1 | 15.00 | 15.00 | Local supplier |
-| 9 | 7.4V 2S LiPo Battery | 1 | 20.00 | 20.00 | Local supplier |
+| 9 | Steren Li-ion 3.7 V / 2800 mAh cell | 2 | 12.00 | 24.00 | Steren / local |
 | 10 | Mini Digital Voltmeter | 1 | 3.00 | 3.00 | [Buy](https://www.amazon.com.mx/dp/B07P1RV5B1) |
 | 11 | PLA filament (chassis) | ~200 g | 0.02/g | 4.00 | Local |
 | 12 | LEGO Technic rack 1×13 (64781) | 1 | 3.13 | 3.13 | BrickLink |
 | 13 | Miscellaneous (wires, connectors, pins) | — | — | 5.00 | — |
-| | **💵 Total Estimated Cost** | | | **~118 USD** | |
+| | **💵 Total Estimated Cost** | | | **~122 USD** | |
 
 ---
 
