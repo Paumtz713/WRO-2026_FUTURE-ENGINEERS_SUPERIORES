@@ -393,11 +393,12 @@ The Mini 560 step-down is rated at 3 A continuous; our logic rail draws ~640 mA,
 
 <div align="center">
 
-| PCB Design | PCB Schematic |
-|:--:|:--:|
-| <img width="350" height="350" src="schemes/PCB.png" /> | <img width="350" height="350" src="schemes/PCB_Schematic.png" /> |
+| PCB Design | PCB Schematic | Real PCB |
+|:--:|:--:|:--:|
+| <img width="300" height="300" src="schemes/PCB.png" /> | <img width="300" height="300" src="schemes/PCB_Schematic.png" /> | <img width="300" height="300" src="schemes/PCB_Real.jpeg" /> |
 
 </div>
+
 ---
 
 ### 🧠 Engineering Insight — PCB & Iteration Problems
@@ -951,5 +952,3 @@ See [Components & Bill of Materials](#components--bill-of-materials) below.
 ---
 
 *End of README.md — Team Los Grises Superiores | WRO 2026 Future Engineers*
-
-*Repository must remain public for at least 12 months after the competition (WRO Rule 7).*
