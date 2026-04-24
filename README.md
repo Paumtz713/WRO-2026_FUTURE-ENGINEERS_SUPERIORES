@@ -950,5 +950,13 @@ See [Components & Bill of Materials](#components--bill-of-materials) below.
 - [WRO 2025 Los Grises Superiores Repository](https://github.com/christopherperezcortes/WRO-2025-Future-Engineers) *(previous season)*
 
 ---
+---
 
+## 🧾 Development Status
+
+As of April 23, 2026, this repository documents the current development stage of the robot.
+
+The system is still undergoing iterative improvements, particularly in electronics integration, sensor calibration, and software tuning. On going adjustments will be validated through testing and progressively documented in future updates.
+
+---
 *End of README.md — Team Los Grises Superiores | WRO 2026 Future Engineers*
