@@ -1,4 +1,4 @@
-# 🤖 WRO-2026-Future-Engineers — Los Grises Superiores
+# 🤖 WRO-2026-Future-Engineers — Superiores
 
 Official repository of **Team Los Grises Superiores** for the **Future Engineers – World Robot Olympiad 2026**.
 
@@ -157,17 +157,21 @@ Documentation (this repository) accounts for **~25% of the total score (30/122 p
 
 | Front | Back |
 |:--:|:--:|
-| <img width="500" height="500" alt="Front" src="" /> | <img width="500" height="500" alt="Back" src="" /> |
+| <img width="500" height="500" alt="Front" src="v-photos/Front.jpg" /> | <img width="500" height="500" alt="Back" src="v-photos/Back.jpg" /> |
 
 | Top | Bottom |
 |:--:|:--:|
-| <img width="500" height="500" alt="Top" src="" /> | <img width="500" height="500" alt="Bottom" src="" /> |
+| <img width="500" height="500" alt="Top" src="v-photos/Top.jpg" /> | <img width="500" height="500" alt="Bottom" src="v-photos/Bottom.jpg" /> |
 
 | Left | Right |
 |:--:|:--:|
-| <img width="500" height="500" alt="Left" src="" /> | <img width="500" height="500" alt="Right" src="" /> |
+| <img width="500" height="500" alt="Left" src="v-photos/Left.jpg" /> | <img width="500" height="500" alt="Right" src="v-photos/Right.jpg" /> |
 
 </div>
+
+> 📁 Full-resolution photos available in the [`v-photos/`](./v-photos/) folder.
+
+---
 
 > 📁 Full-resolution photos available in the [`v-photos/`](./v-photos/) folder.
 
