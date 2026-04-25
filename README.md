@@ -216,8 +216,6 @@ For 2026 we migrated to a **fully custom 3D-printed chassis** designed in **Onsh
 >
 > **Solution:** We used fine-grit sandpaper to gradually sand the interior of the axle housing bore until the shaft rotated freely without play. We now perform a fit-check on all rotating interfaces immediately after each print before full assembly. This problem reinforced the importance of **printing tolerance testing samples** before committing to a full chassis reprint.
 
-<div align="center">
-<img width="500" height="500" alt="Chassis CAD" src="https://github.com/christopherperezcortes/IMAGENES/blob/f4b7efd2b9f949eae8dd6a845992508e85c39529/Captura%20de%20pantalla%202026-04-10%20122143.png" />
 
 The mechanical design of the robot was developed through multiple iterations, focusing on improving structural rigidity, component integration, and maneuverability.
 ---
