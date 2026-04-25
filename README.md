@@ -965,7 +965,7 @@ See [Components & Bill of Materials](#components--bill-of-materials) below.
 
 ## 🧾 Development Status
 
-As of April 23, 2026, this repository documents the current development stage of the robot.
+As of April 25, 2026, this repository documents the current development stage of the robot.
 
 The system is still undergoing iterative improvements, particularly in electronics integration, sensor calibration, and software tuning. On going adjustments will be validated through testing and progressively documented in future updates.
 
