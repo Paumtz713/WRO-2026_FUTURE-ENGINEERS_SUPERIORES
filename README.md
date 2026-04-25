@@ -251,7 +251,8 @@ The mechanical design of the robot was developed through multiple iterations, fo
 
 </div>
 ---
-#### 🔷 Complete Assembly
+
+#### 🔹 Complete Aseembly
 
 <div align="center">
 
