@@ -173,10 +173,6 @@ Documentation (this repository) accounts for **~25% of the total score (30/122 p
 
 ---
 
-> 📁 Full-resolution photos available in the [`v-photos/`](./v-photos/) folder.
-
----
-
 ## 🎥 Project Videos
 
 <div align="center">
