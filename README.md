@@ -1,4 +1,4 @@
-# 🤖 WRO-2026-Future-Engineers — Superiores
+# SUPERIORES_FUTURE ENGINEERS_WRO 2026
 
 Official repository of **Team Los Grises Superiores** for the **Future Engineers – World Robot Olympiad 2026**.
 
