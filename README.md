@@ -157,15 +157,15 @@ Documentation (this repository) accounts for **~25% of the total score (30/122 p
 
 | Front | Back |
 |:--:|:--:|
-| <img width="500" height="500" alt="Front" src="v-photos/Front.jpg" /> | <img width="500" height="500" alt="Back" src="v-photos/Back.jpg" /> |
+| <img width="500" height="500" alt="Front" src="v-photos/Front.jpeg" /> | <img width="500" height="500" alt="Back" src="v-photos/Back.jpeg" /> |
 
 | Top | Bottom |
 |:--:|:--:|
-| <img width="500" height="500" alt="Top" src="v-photos/Top.jpg" /> | <img width="500" height="500" alt="Bottom" src="v-photos/Bottom.jpg" /> |
+| <img width="500" height="500" alt="Top" src="v-photos/Top.jpeg" /> | <img width="500" height="500" alt="Bottom" src="v-photos/Bottom.jpeg" /> |
 
 | Left | Right |
 |:--:|:--:|
-| <img width="500" height="500" alt="Left" src="v-photos/Left.jpg" /> | <img width="500" height="500" alt="Right" src="v-photos/Right.jpg" /> |
+| <img width="500" height="500" alt="Left" src="v-photos/Left.jpeg" /> | <img width="500" height="500" alt="Right" src="v-photos/Right.jpeg" /> |
 
 </div>
 
