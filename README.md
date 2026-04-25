@@ -219,9 +219,6 @@ For 2026 we migrated to a **fully custom 3D-printed chassis** designed in **Onsh
 <div align="center">
 <img width="500" height="500" alt="Chassis CAD" src="https://github.com/christopherperezcortes/IMAGENES/blob/f4b7efd2b9f949eae8dd6a845992508e85c39529/Captura%20de%20pantalla%202026-04-10%20122143.png" />
 
-*Fig. 1 — Onshape CAD render of Version 3 chassis*
-</div>
-
 The mechanical design of the robot was developed through multiple iterations, focusing on improving structural rigidity, component integration, and maneuverability.
 ---
 #### 🔹 Structural Components (3D Design)
