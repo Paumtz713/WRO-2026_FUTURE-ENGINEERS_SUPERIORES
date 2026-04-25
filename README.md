@@ -118,7 +118,7 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
   - [Obstacle Challenge Algorithm](#obstacle-challenge-algorithm)
   - [Vision Processing Strategy (ROIs)](#-vision-processing-strategy-rois)
   - [Parking Strategy](#️-parking-strategy)
-  - [PID Control Implementation](#pid-control-implementation)
+  - [Lateral Control Strategy (Non-PID)](#lateral-control-strategy-non-pid)
   - [Testing & Tuning Process](#testing--tuning-process)
 - [Criterion 4 — Systemic Thinking & Engineering Decisions](#criterion-4--systemic-thinking--engineering-decisions)
   - [Evolution from 2025 to 2026](#evolution-from-2025-to-2026)
@@ -290,7 +290,7 @@ The front axle uses an **Ackermann steering geometry** implemented through a ser
 | Right limit | `DERECHA = 135` (1900 µs) |
 | Control resolution | 1° via Arduino `Servo.write()` |
 
-> ⚠️ **Servo iteration — SG90 → Steren MOT-110:** The robot initially used an **SG90 mini servo (9g, 1.8 kg·cm)**. During testing, we observed that under repeated high-frequency corrections from the PID loop, the SG90 produced inconsistent responses and showed signs of gear wear under sustained load. We replaced it with the **Steren MOT-110 micro servo**, which offers greater torque consistency and better durability for continuous correction cycles. The pulse width range and Arduino `Servo.write()` interface remained identical, so no software changes were required.
+> ⚠️ **Servo iteration — SG90 → Steren MOT-110:** The robot initially used an **SG90 mini servo (9g, 1.8 kg·cm)**. During testing, we observed that under repeated high-frequency corrections from the lateral control loop, the SG90 produced inconsistent responses and showed signs of gear wear under sustained load. We replaced it with the **Steren MOT-110 micro servo**, which offers greater torque consistency and better durability for continuous correction cycles. The pulse width range and Arduino `Servo.write()` interface remained identical, so no software changes were required.
 
 **Why Ackermann geometry?** In a standard turn, the inner and outer front wheels trace arcs of different radii. Without Ackermann compensation, the inner wheel scrubs against the surface, reducing precision and creating steering resistance. Our tie-rod linkage achieves approximately 70% Ackermann correction — sufficient for the minimum track radii encountered in WRO (estimated ~300 mm inner radius at corners).
 
@@ -483,7 +483,7 @@ The entire control system runs on a **single Arduino Nano (ATmega328P, 16 MHz)**
 |---|---|---|
 | `IMU` | `actualizarIMU()`, `actualizarConteoGiros()`, `giroRelativo()` | Reads MPU6050, integrates yaw, counts 90° turns |
 | `Ultrasonics` | `medirDistancia(TRIG, ECHO)` | Returns distance in cm via HC-SR04 pulse timing |
-| `PID` | Inline in `loop()` | Lateral wall-following with gyro correction |
+| `LateralControl` | Inline in `loop()` | Threshold-based lateral control with IMU correction |
 | `OpenMV` | `parseOpenMV()` (UART read) | Reads color blob data from OpenMV H7 over serial |
 | `Drive` | `avanzar(speed)`, `detener()`, `girarSuave()` | Controls TB6612FNG and Steren MOT-110 servo |
 | `Start Sequence` | `faseInicio` state machine | 3-phase startup alignment |
@@ -501,7 +501,7 @@ The entire control system runs on a **single Arduino Nano (ATmega328P, 16 MHz)**
 │   Phase 1    │   Anti-corner S-maneuver                         │
 │   Phase 2    │   Fine centering with ultrasonics                │
 ├──────────────┼──────────────────────────────────────────────────┤
-│ LANE_FOLLOW  │ PID lateral + IMU gyro correction                │
+│ LANE_FOLLOW  │ Threshold-based lateral control + IMU correction  │
 │              │ Adaptive speed (110/130/150 PWM)                 │
 ├──────────────┼──────────────────────────────────────────────────┤
 │ AVOID_COLOR  │ OpenMV detects pillar →                          │
@@ -538,7 +538,7 @@ LOOP (every 25 ms):
   5. IF inicio: run 3-phase alignment, RETURN
   6. Compute pasilloEstrecho (distL<15 AND distR<15)
   7. Set velocidad: distF<18→110, distF<30→130, else→150
-  8. Compute PID (distL - distR error, with exponential smoothing)
+  8. Compute lateral correction (distL - distR error, with exponential smoothing)
   9. Apply IMU correction (giroRelativo() on straight sections)
   10. Check EMERGENCY overrides
   11. Check OpenMV color detection via UART (NOT in emergency)
@@ -557,7 +557,7 @@ The obstacle challenge extends the open challenge with:
 2. **Avoidance maneuver:** Steer toward the correct side, hold for 300 ms (`tiempoColor`), then return to lane-follow. The 300 ms was determined empirically across 20 test runs to give consistent clearance without overshooting.
 3. **Parking (Obstacle Challenge only):** After 3 laps, the robot locates and parks in the magenta bay using a combination of ultrasonic distance sensing and OpenMV H7 visual confirmation. The full parking sequence is documented in the [Parking Strategy](#️-parking-strategy) section below.
 
-**Edge case handled:** If both left and right distances are < 15 cm (narrow corridor), `evitandoColor` is suppressed to avoid steering conflicts between the wall-following PID and the color avoidance.
+**Edge case handled:** If both left and right distances are < 15 cm (narrow corridor), `evitandoColor` is suppressed to avoid steering conflicts between the lateral control and the color avoidance.
 
 ---
 ## 👁️ Vision Processing Strategy (ROIs)
@@ -687,7 +687,7 @@ The parking maneuver is divided into three phases:
 
 #### 1. Alignment Phase
 - The robot positions itself parallel to the parking zone
-- Uses PID control to maintain a stable distance from the wall
+- Uses threshold-based distance control to maintain a stable distance from the wall
 
 ---
 
@@ -738,15 +738,15 @@ These updates will be committed to the repository before the final competition s
 
 ---
 
-### PID Control Implementation
+### Lateral Control Strategy (Non-PID)
 
-The lateral wall-following PID uses the **difference between left and right ultrasonic distances** as the error signal:
+The lateral control system uses the **difference between left and right ultrasonic distances** as the error signal. Rather than a classic PID loop, it applies threshold-based proportional correction combined with IMU gyro feedback — simpler and more predictable on the Arduino Nano's limited SRAM:
 
 ```
 error = distL - distR
 ```
 
-A positive error (robot closer to right wall) produces a positive PID output, steering left to re-center.
+A positive error (robot closer to right wall) produces a positive correction output, steering left to re-center.
 
 **Exponential smoothing (low-pass filter):**
 ```cpp
@@ -760,16 +760,16 @@ This reduces HC-SR04 noise spikes from affecting the steering output.
 if (!enGiro) {
   float giro = giroRelativo();        // yaw deviation from last reference
   if (abs(giro) > UMBRAL_GIRO_CURVA) {
-    salidaPID -= giro * 0.8f;         // proportional correction
+    salidaControl -= giro * 0.8f;         // proportional IMU correction
     if (abs(giro) > UMBRAL_GIRO_EMERGENCIA) {
-      salidaPID = (giro > 0) ? -(DERECHA-CENTRO) : (DERECHA-CENTRO); // max correction
+      salidaControl = (giro > 0) ? -(DERECHA-CENTRO) : (DERECHA-CENTRO); // max correction
     }
   }
 }
 ```
 The gyro correction prevents the robot from drifting sideways during long straight sections, which is especially important in the 1000 mm wide corridor variant.
 
-**Tuned PID constants:**
+**Tuned control constants:**
 
 | Constant | Value | Effect |
 |---|---|---|
@@ -777,7 +777,7 @@ The gyro correction prevents the robot from drifting sideways during long straig
 | `Ki` | 0.01 | Integral — eliminates steady-state offset |
 | `Kd` | 1.2 | Derivative — damps oscillation near center |
 
-**Tuning process:** We started with Kp=1.0, Ki=0, Kd=0 and increased Kp until oscillation appeared (~3.5), then backed off to 2.5. Kd was added to dampen oscillation. Ki was added at 0.01 to compensate for the systematic error caused by slight servo center offset.
+**Tuning process:** We started with a proportional gain of 1.0 and increased it until oscillation appeared (~3.5), then backed off to 2.5. A derivative term was added to dampen oscillation. A small integral term (0.01) was added to compensate for the systematic error caused by slight servo center offset.
 
 ---
 
@@ -820,7 +820,7 @@ This is not a minor update — it is a **complete system redesign** inspired by 
 
 **Constraint 3 — Time (team readiness):** Two of three team members are competing in their first WRO. We chose a simpler hardware stack (Arduino vs. Raspberry Pi) so members could understand and debug the entire system independently.
 
-**Constraint 4 — 2026 rule change — narrow corridor:** The inner walls can now be 600 mm apart (vs. always 1000 mm in 2025). Our adaptive speed logic directly addresses this: `pasilloEstrecho` reduces speed when both side distances are < 15 cm.
+**Constraint 4 — 2026 rule change — narrow corridor:** The inner walls can now be 600 mm apart (vs. always 1000 mm in 2025). Our threshold-based lateral control directly addresses this: `pasilloEstrecho` reduces speed when both side distances are < 15 cm.
 
 **Trade-off: HuskyLens vs. OpenMV (mid-season decision)**
 - HuskyLens pros: plug-and-play, on-chip AI, 10 ms latency, no scripting required
