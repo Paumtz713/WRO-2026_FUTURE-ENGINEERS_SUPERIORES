@@ -134,7 +134,7 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
 
 ## Project Overview & Abstract
 
-We present the **development and implementation of an autonomous vehicle** designed for the **World Robot Olympiad 2026 – Future Engineers** category. This robot is the direct evolution of our 2025 competition vehicle — which reached the international final — rebuilt from the ground up with a **fully 3D-printed chassis**, a new **HuskyLens AI camera**, and a refined **Arduino Nano-based control architecture**.
+We present the **development and implementation of an autonomous vehicle** designed for the **World Robot Olympiad 2026 – Future Engineers** category. This robot is the direct evolution of our 2025 competition vehicle — which reached the international final — rebuilt from the ground up with a **fully 3D-printed chassis**, an **OpenMV H7 camera** (upgraded from HuskyLens after field testing), and a refined **Arduino Nano-based control architecture**.
 
 The **Future Engineers** category requires a self-driving car to complete two challenges autonomously:
 
@@ -283,12 +283,14 @@ The front axle uses an **Ackermann steering geometry** implemented through a ser
 
 | Parameter | Value |
 |---|---|
-| Steering servo | SG90 (9g, 1.8 kg·cm stall torque) |
+| Steering servo | Steren MOT-110 micro servo (upgraded from SG90 after testing) |
 | Steering range | ~30° left / 30° right from center |
 | Center pulse width | 1500 µs |
 | Left limit | `IZQUIERDA = 45` (1100 µs) |
 | Right limit | `DERECHA = 135` (1900 µs) |
 | Control resolution | 1° via Arduino `Servo.write()` |
+
+> ⚠️ **Servo iteration — SG90 → Steren MOT-110:** The robot initially used an **SG90 mini servo (9g, 1.8 kg·cm)**. During testing, we observed that under repeated high-frequency corrections from the PID loop, the SG90 produced inconsistent responses and showed signs of gear wear under sustained load. We replaced it with the **Steren MOT-110 micro servo**, which offers greater torque consistency and better durability for continuous correction cycles. The pulse width range and Arduino `Servo.write()` interface remained identical, so no software changes were required.
 
 **Why Ackermann geometry?** In a standard turn, the inner and outer front wheels trace arcs of different radii. Without Ackermann compensation, the inner wheel scrubs against the surface, reducing precision and creating steering resistance. Our tie-rod linkage achieves approximately 70% Ackermann correction — sufficient for the minimum track radii encountered in WRO (estimated ~300 mm inner radius at corners).
 
@@ -326,7 +328,7 @@ We tested 1:20 and 1:50 gear options. At 1:20 the robot was too fast to react to
 | Chassis material | 3D-printed PLA | LEGO Technic | Custom geometry, lower weight |
 | Steering | Servo + rack | Differential steering | Rules require ackermann-type steering |
 | Drive | Single DC motor | Two motors (coupled) | Simpler, lighter, compliant with 11.5 |
-| Camera position | Front-center, tilted 20° down | Side-mounted | Better field of view for pillar detection and wall proximity |
+| Camera | OpenMV H7 (UART streaming) | HuskyLens (I2C) | HuskyLens data rate too low; servo oscillated without continuous signal |
 
 ---
 
@@ -338,7 +340,7 @@ The robot uses **two Steren Li-ion 3.7 V / 2800 mAh cells connected in series**,
 
 | Rail | Source | Consumers | Estimated current |
 |---|---|---|---|
-| 5 V logic | 7.4 V series pack → Mini 560 step-down (5 V / 3 A) | Arduino Nano, MPU6050, HuskyLens, HC-SR04 ×3 | ~640 mA peak |
+| 5 V logic | 7.4 V series pack → Mini 560 step-down (5 V / 3 A) | Arduino Nano, MPU6050, OpenMV H7, HC-SR04 ×3 | ~600 mA peak |
 | Motor rail | 7.4 V series pack (direct) | TB6612FNG + DC motor | ~1.5 A peak |
 
 **Why two cells in series?** Each Steren cell delivers 3.7 V nominal (4.2 V fully charged). Two in series give 7.4 V nominal — enough to power the motor driver directly and allow the Mini 560 regulator to step down to a stable 5 V for the logic rail.
@@ -351,14 +353,14 @@ The robot uses **two Steren Li-ion 3.7 V / 2800 mAh cells connected in series**,
 |---|---|
 | Arduino Nano | 20 |
 | MPU6050 | 3.9 |
-| HuskyLens | 320 (active AI) |
+| OpenMV H7 (active, UART streaming) | 280 (estimated) |
 | HC-SR04 ×3 | 45 (15 mA each) |
-| SG90 servo (active) | 250 |
-| **Total logic rail** | **~640 mA** |
+| Steren MOT-110 servo (active) | 200 (estimated) |
+| **Total logic rail** | **~600 mA** |
 | DC motor (avg.) | 800–1500 |
 | **Total motor rail** | **~1500 mA** |
 
-The Mini 560 step-down is rated at 3 A continuous; our logic rail draws ~640 mA, giving a **safety margin of ~4.7×**. This margin accounts for HuskyLens inference spikes and servo stall.
+The Mini 560 step-down is rated at 3 A continuous; our logic rail draws ~600 mA, giving a **safety margin of ~5×**. This margin accounts for OpenMV peak draw and Steren MOT-110 servo stall.
 
 **Failure mode considered:** When each Li-ion cell discharges below ~3.2 V (pack voltage ~6.4 V), the Mini 560 drops out of regulation and the motor driver performance degrades. We added a **mini digital voltmeter** mounted visibly on the chassis to monitor the pack voltage before each run. We replace or recharge cells when the pack reads below 6.8 V.
 
@@ -375,7 +377,7 @@ The Mini 560 step-down is rated at 3 A continuous; our logic rail draws ~640 mA,
     ├── Mini 560 Step-Down → 5 V rail
     │       ├── Arduino Nano (5 V pin)
     │       ├── MPU6050 (I2C: SDA→A4, SCL→A5)
-    │       ├── HuskyLens (I2C: SDA→A4, SCL→A5)
+    │       ├── OpenMV H7 (UART: TX→D0/RX pin, RX→D1/TX pin)
     │       └── HC-SR04 ×3
     │               Front  TRIG→D7  ECHO→D6
     │               Left   TRIG→D3  ECHO→D2
@@ -383,10 +385,10 @@ The Mini 560 step-down is rated at 3 A continuous; our logic rail draws ~640 mA,
     └── TB6612FNG (VMOT = 7.4 V)
             ├── DC Motor (rear axle)
             │       AIN1→D10  AIN2→D11  PWMA→D9
-            └── SG90 Servo (signal→D8)
+            └── Steren MOT-110 Servo (signal→D8)
 ```
 
-**I2C bus:** Both the MPU6050 and HuskyLens share the I2C bus (address 0x60 for HuskyLens, 0x68 for MPU6050). No address conflict exists.
+**I2C bus:** The MPU6050 uses I2C (address 0x68). The OpenMV H7 communicates via UART (hardware serial), freeing the I2C bus exclusively for the IMU.
 
 ---
 ### 🔌 PCB & Wiring Implementation
@@ -437,20 +439,24 @@ Used exclusively for **yaw (rotation) tracking**. The gyroscope integrates angul
 
 **Calibration:** On startup, `mpu.calcOffsets(true, true)` is called with the robot stationary for ~3 seconds to compute gyro bias. The robot must not be moved during this window — indicated by the serial monitor message `"Calibrando IMU... No mover el robot."`.
 
-#### HuskyLens AI Camera (SEN0305)
+#### Camera — OpenMV H7 (current, upgraded from HuskyLens)
 
 | Parameter | Value |
 |---|---|
-| Resolution | 320 × 240 px |
-| Interface | I2C (up to 400 kHz) |
-| Mode used | Color Recognition |
-| Trained objects | ID 1 = Red pillar, ID 2 = Green pillar |
-| Frame rate | ~30 FPS (hardware AI, no host processing) |
+| Resolution | 320 × 240 px (QVGA) |
+| Interface | UART (115200 baud) |
+| Mode used | Color blob tracking via MicroPython script |
+| Tracked objects | Red pillar (LAB thresholds), Green pillar (LAB thresholds) |
+| Frame rate | ~30 FPS |
 | Mounting | Front-center, tilted 20° downward |
 
-**Why HuskyLens instead of OpenMV (2025)?** The OpenMV H7 Plus required Python scripting and UART communication with EV3, introducing ~50 ms latency per frame. HuskyLens runs inference on-chip and returns block coordinates via I2C in <10 ms. This 5× latency reduction is critical at our operating speeds.
+> ⚠️ **Camera iteration — HuskyLens → OpenMV H7:** Our initial 2026 design used the **HuskyLens AI camera (SEN0305)** connected via I2C, chosen for its on-device inference and low integration complexity. However, during field testing we identified a critical problem: the HuskyLens was sending very few valid data frames per second under our operating conditions. The Arduino received long gaps between detections, leaving the servo without a consistent signal. This caused the steering to oscillate and the robot to tremble erratically on straight sections.
+>
+> **Solution:** We switched back to the **OpenMV H7** — the same camera platform used in our 2025 robot — running a custom MicroPython script that streams color blob data over UART at 115200 baud. The OpenMV sends a structured packet on every frame, giving the Arduino a continuous, high-frequency signal to act on. After the switch, servo oscillation was eliminated and steering became smooth and stable.
+>
+> **Trade-off:** The OpenMV requires a custom UART parsing routine on the Arduino side and a MicroPython script to maintain. This adds software complexity compared to the HuskyLens I2C library, but the reliability gain was non-negotiable for competition.
 
-**Trade-off:** HuskyLens requires manual training on the physical pillars under competition lighting. We performed 3 training sessions (lab, outdoor, gym) and selected the model with the best generalization. The camera angle of 20° was chosen empirically: 0° caused false detections of the floor line; 30° reduced detection range to <40 cm.
+The camera angle of 20° was chosen empirically: 0° caused false detections of the floor line; 30° reduced detection range to <40 cm.
 
 ---
 
@@ -459,7 +465,7 @@ Used exclusively for **yaw (rotation) tracking**. The gyroscope integrates angul
 | Sensor | Calibration method | When |
 |---|---|---|
 | MPU6050 | Static bias computation (`calcOffsets`) | At power-on, before start button |
-| HuskyLens | On-device training with 20 samples per color | Before competition, stored in camera flash |
+| OpenMV H7 | LAB color threshold tuning via OpenMV IDE | Before competition; thresholds saved in `main.py` on the camera |
 | HC-SR04 | Measured against known distances (10, 20, 50 cm ruler) | Manual verification; no runtime calibration needed |
 | Servo center | Adjusted `CENTRO` constant to achieve mechanically straight driving | One-time setup per robot rebuild |
 
@@ -478,8 +484,8 @@ The entire control system runs on a **single Arduino Nano (ATmega328P, 16 MHz)**
 | `IMU` | `actualizarIMU()`, `actualizarConteoGiros()`, `giroRelativo()` | Reads MPU6050, integrates yaw, counts 90° turns |
 | `Ultrasonics` | `medirDistancia(TRIG, ECHO)` | Returns distance in cm via HC-SR04 pulse timing |
 | `PID` | Inline in `loop()` | Lateral wall-following with gyro correction |
-| `HuskyLens` | `huskylens.request()`, `huskylens.read()` | Queries camera for color block detections |
-| `Drive` | `avanzar(speed)`, `detener()`, `girarSuave()` | Controls TB6612FNG and SG90 servo |
+| `OpenMV` | `parseOpenMV()` (UART read) | Reads color blob data from OpenMV H7 over serial |
+| `Drive` | `avanzar(speed)`, `detener()`, `girarSuave()` | Controls TB6612FNG and Steren MOT-110 servo |
 | `Start Sequence` | `faseInicio` state machine | 3-phase startup alignment |
 
 ---
@@ -498,7 +504,7 @@ The entire control system runs on a **single Arduino Nano (ATmega328P, 16 MHz)**
 │ LANE_FOLLOW  │ PID lateral + IMU gyro correction                │
 │              │ Adaptive speed (110/130/150 PWM)                 │
 ├──────────────┼──────────────────────────────────────────────────┤
-│ AVOID_COLOR  │ HuskyLens detects pillar →                       │
+│ AVOID_COLOR  │ OpenMV detects pillar →                          │
 │              │   ID1 (red)  → steer RIGHT (DERECHA)             │
 │              │   ID2 (green)→ steer LEFT (IZQUIERDA)            │
 │              │ Returns to LANE_FOLLOW after 300 ms              │
@@ -519,7 +525,7 @@ The entire control system runs on a **single Arduino Nano (ATmega328P, 16 MHz)**
 
 ```
 SETUP:
-  Initialize I2C (MPU6050 + HuskyLens)
+  Initialize I2C (MPU6050) + UART (OpenMV H7)
   Calibrate IMU (calcOffsets)
   Reset yawAcumulado = 0, girosContados = 0
   Wait for Start button
@@ -535,7 +541,7 @@ LOOP (every 25 ms):
   8. Compute PID (distL - distR error, with exponential smoothing)
   9. Apply IMU correction (giroRelativo() on straight sections)
   10. Check EMERGENCY overrides
-  11. Check HuskyLens color detection (NOT in emergency)
+  11. Check OpenMV color detection via UART (NOT in emergency)
   12. girarSuave() + avanzar(velocidad)
 ```
 
@@ -547,20 +553,20 @@ LOOP (every 25 ms):
 
 The obstacle challenge extends the open challenge with:
 
-1. **Color detection:** HuskyLens in Color Recognition mode. When a block is detected, the largest block by area is selected (multi-block priority logic).
+1. **Color detection:** OpenMV H7 streams color blob data over UART. When a blob is detected, the largest blob by pixel area is selected (multi-blob priority logic).
 2. **Avoidance maneuver:** Steer toward the correct side, hold for 300 ms (`tiempoColor`), then return to lane-follow. The 300 ms was determined empirically across 20 test runs to give consistent clearance without overshooting.
-3. **Parking (Obstacle Challenge only):** After 3 laps, the robot locates and parks in the magenta bay using a combination of ultrasonic distance sensing and HuskyLens visual confirmation. The full parking sequence is documented in the [Parking Strategy](#️-parking-strategy) section below.
+3. **Parking (Obstacle Challenge only):** After 3 laps, the robot locates and parks in the magenta bay using a combination of ultrasonic distance sensing and OpenMV H7 visual confirmation. The full parking sequence is documented in the [Parking Strategy](#️-parking-strategy) section below.
 
 **Edge case handled:** If both left and right distances are < 15 cm (narrow corridor), `evitandoColor` is suppressed to avoid steering conflicts between the wall-following PID and the color avoidance.
 
 ---
 ## 👁️ Vision Processing Strategy (ROIs)
 
-The vision system of the robot is based on the use of a HuskyLens AI camera operating in **Color Recognition mode**, trained to detect traffic pillars:
-- **ID 1 → Red pillar**
-- **ID 2 → Green pillar**
+The vision system of the robot is based on the **OpenMV H7 camera** running a MicroPython color blob tracking script. It detects traffic pillars by LAB color thresholds and streams structured packets over UART to the Arduino:
+- **Red blob → Right avoidance**
+- **Green blob → Left avoidance**
 
-However, raw camera detection alone was not sufficient to achieve stable and reliable behavior. During initial testing, the robot experienced inconsistent detections caused by lighting variations, multiple objects in the frame, and noise from irrelevant areas.
+However, raw camera detection alone was not sufficient to achieve stable and reliable behavior. During initial testing (first with HuskyLens, then with OpenMV), the robot experienced inconsistent detections caused by lighting variations, multiple objects in the frame, and noise from irrelevant areas.
 
 ### 🔍 Problem Identified
 
@@ -666,7 +672,7 @@ Although the final implementation is still under refinement, the parking system 
 
 The robot will use a combination of:
 - **Ultrasonic sensors (HC-SR04)** to detect the parking space boundaries
-- **Camera (HuskyLens)** to assist in identifying the parking area region if visual cues are available
+- **Camera (OpenMV H7)** to assist in identifying the parking area region if visual cues are available
 
 The parking zone is expected to be detected based on:
 - Increased lateral distance (gap between obstacles)
@@ -793,21 +799,22 @@ The gyro correction prevents the robot from drifting sideways during long straig
 
 The 2025 robot was a strong performer (international competition participant), but the 2025 architecture had fundamental constraints that motivated a full rebuild:
 
-| Aspect | 2025 (EV3 + OpenMV) | 2026 (Arduino + HuskyLens) | Why changed |
-|---|---|---|---|
-| Chassis | LEGO Technic | 3D-printed PLA | Weight reduction, custom geometry |
-| Vision | OpenMV H7 Plus (Python, UART) | HuskyLens (on-device AI, I2C) | 5× lower latency, no host CPU cost |
-| Controller | EV3 Intelligent Brick | Arduino Nano + TB6612FNG | Faster loop rate, direct PWM control |
-| IMU | DFRobot BNO055 | MPU6050 | Lower cost, simpler library, sufficient precision |
-| Weight | ~1.2 kg | ~0.7 kg (estimated) | Better power-to-weight, faster acceleration |
+| Aspect | 2025 (EV3 + OpenMV) | 2026 initial (Arduino + HuskyLens) | 2026 final (Arduino + OpenMV) | Why changed |
+|---|---|---|---|---|
+| Chassis | LEGO Technic | 3D-printed PLA | 3D-printed PLA (v3) | Weight reduction, custom geometry |
+| Vision | OpenMV H7 Plus (Python, UART) | HuskyLens (on-device AI, I2C) | OpenMV H7 (Python, UART) | HuskyLens sent insufficient data per frame — servo had no consistent signal and oscillated |
+| Steering servo | EV3 medium motor | SG90 (9g) | Steren MOT-110 (micro) | SG90 lacked torque and precision for the updated linkage geometry |
+| Controller | EV3 Intelligent Brick | Arduino Nano + TB6612FNG | Arduino Nano + TB6612FNG | Faster loop rate, direct PWM control |
+| IMU | DFRobot BNO055 | MPU6050 | MPU6050 | Lower cost, simpler library, sufficient precision |
+| Weight | ~1.2 kg | ~0.7 kg (estimated) | ~0.7 kg (estimated) | Better power-to-weight, faster acceleration |
 
-This is not a minor update — it is a **complete system redesign** inspired by the 2025 experience, executed by a largely new team with guidance from veteran members.
+This is not a minor update — it is a **complete system redesign** inspired by the 2025 experience, executed by a largely new team with guidance from veteran members. The mid-season hardware changes (camera and servo) were driven by real testing failures documented below.
 
 ---
 
 ### Constraints & Trade-offs
 
-**Constraint 1 — Processing power:** The Arduino Nano (ATmega328P) has only 2 KB SRAM and runs at 16 MHz. This ruled out onboard image processing. We offloaded vision entirely to HuskyLens.
+**Constraint 1 — Processing power:** The Arduino Nano (ATmega328P) has only 2 KB SRAM and runs at 16 MHz. This ruled out onboard image processing. We offloaded vision entirely to the OpenMV H7, which runs its own MicroPython interpreter independently.
 
 **Constraint 2 — Dimensional limits:** 300 × 200 mm footprint constrains the wheelbase and track width. We optimized for a short wheelbase (better turning radius) at the cost of slightly reduced straight-line stability.
 
@@ -815,10 +822,12 @@ This is not a minor update — it is a **complete system redesign** inspired by 
 
 **Constraint 4 — 2026 rule change — narrow corridor:** The inner walls can now be 600 mm apart (vs. always 1000 mm in 2025). Our adaptive speed logic directly addresses this: `pasilloEstrecho` reduces speed when both side distances are < 15 cm.
 
-**Trade-off: HuskyLens vs. custom OpenCV pipeline**
-- HuskyLens pros: plug-and-play, on-chip, 10 ms latency, no calibration complexity
-- HuskyLens cons: fixed detection classes (trained manually), less flexible than scripted vision
-- Decision: HuskyLens. Reliability and latency outweigh flexibility for this challenge.
+**Trade-off: HuskyLens vs. OpenMV (mid-season decision)**
+- HuskyLens pros: plug-and-play, on-chip AI, 10 ms latency, no scripting required
+- HuskyLens cons: low data output rate in our conditions — the Arduino received too few valid frames per second, causing the servo to lose signal and oscillate
+- OpenMV pros: continuous UART data stream, full control over detection logic via MicroPython, proven in our 2025 robot
+- OpenMV cons: requires maintaining a MicroPython script and UART parsing on the Arduino side
+- **Decision: OpenMV H7.** After field testing confirmed the HuskyLens data gap caused servo trembling, we prioritized signal continuity over integration simplicity.
 
 ---
 
@@ -827,7 +836,7 @@ This is not a minor update — it is a **complete system redesign** inspired by 
 | Risk | Probability | Impact | Mitigation |
 |---|---|---|---|
 | IMU drift causing wrong lap count | Medium | High | Accumulated yaw with 1080° threshold (not turn counting alone) |
-| HuskyLens misdetects pillar color | Low | High | Largest-area block selection; 300 ms avoidance timeout |
+| OpenMV misdetects pillar color | Low | High | Largest-area blob selection; 300 ms avoidance timeout |
 | Battery voltage drop during run | Medium | Medium | Pre-run voltmeter check; separate motor and logic rails; cells replaced below 6.8 V |
 | Narrow corridor causes wall collision | Medium | High | Adaptive speed reduction + emergency steering overrides |
 | Servo center offset causes drift | Low | Medium | IMU gyro correction on straight sections |
@@ -888,8 +897,8 @@ See [Components & Bill of Materials](#components--bill-of-materials) below.
 1. Install **Arduino IDE** (v1.8.x or v2.x).
 2. Install the following libraries via Library Manager:
    - `MPU6050_light` by rfetick
-   - `HUSKYLENS` by DFRobot
    - `Servo` (built-in)
+   > **Note:** The OpenMV H7 camera runs its own MicroPython script (`main.py`) independently. No Arduino library is needed — communication is handled via hardware UART.
 3. Clone this repository:
    ```bash
    git clone https://github.com/christopherperezcortes/WRO-2026-Future-Engineers.git
@@ -908,13 +917,14 @@ See [Components & Bill of Materials](#components--bill-of-materials) below.
 4. Wait for judge's signal.
 5. Press **Start button** (digital pin D12, active LOW) — robot begins.
 
-#### HuskyLens training (one-time per competition environment)
+#### OpenMV H7 calibration (one-time per competition environment)
 
-1. Connect HuskyLens to USB and open HUSKYLENS app on phone.
-2. Set mode to **Color Recognition**.
-3. Point at red pillar → press **Learn** (ID 1).
-4. Point at green pillar → press **Learn** (ID 2).
-5. Disconnect and mount on robot.
+1. Connect OpenMV H7 to PC via USB and open **OpenMV IDE**.
+2. Open `src/openmv/main.py` from this repository.
+3. Use the **Threshold Editor** (Tools → Threshold Editor) to tune the LAB color thresholds for the red and green pillars under competition lighting.
+4. Update the `red_threshold` and `green_threshold` tuples in `main.py`.
+5. Save and run the script on the camera. Disconnect USB and mount on robot.
+6. The camera boots and runs `main.py` automatically on power-up.
 
 ---
 
@@ -922,20 +932,20 @@ See [Components & Bill of Materials](#components--bill-of-materials) below.
 
 | # | Component | Qty | Unit Price (USD) | Total (USD) | Link |
 |---|---|---|---|---|---|
-| 1 | HuskyLens AI Camera (SEN0305) | 1 | 35.00 | 35.00 | [Buy](https://www.dfrobot.com/product-2995.html) |
+| 1 | OpenMV H7 Camera | 1 | 65.00 | 65.00 | [Buy](https://openmv.io/products/openmv-h7) |
 | 2 | Arduino Nano (ATmega328P) | 1 | 8.00 | 8.00 | [Buy](https://www.steren.com.mx/placa-de-desarrollo-nano.html) |
 | 3 | HC-SR04 Ultrasonic Sensor | 3 | 3.00 | 9.00 | [Buy](https://uelectronics.com/producto/sensor-ultrasonico-hc-sr04/) |
 | 4 | MPU6050 IMU (6-DOF) | 1 | 4.00 | 4.00 | [Buy](https://uelectronics.com/producto/imu-mpu6050-6-grados-de-libertad/) |
 | 5 | TB6612FNG Motor Driver | 1 | 5.00 | 5.00 | [Buy](https://uelectronics.com/producto/doble-puente-h-tb6612fng/) |
 | 6 | Mini 560 Step-Down Regulator (5V/3A) | 1 | 4.00 | 4.00 | [Buy](https://uelectronics.com/producto/mini-560-regulador-step-down/) |
-| 7 | SG90 Servo Motor | 1 | 3.00 | 3.00 | Local supplier |
+| 7 | Steren MOT-110 Micro Servo | 1 | 5.00 | 5.00 | [Buy](https://www.steren.com.mx/micro-servomotor.html) |
 | 8 | DC Gearmotor (RC car base) | 1 | 15.00 | 15.00 | Local supplier |
 | 9 | Steren Li-ion 3.7 V / 2800 mAh cell | 2 | 12.00 | 24.00 | Steren / local |
 | 10 | Mini Digital Voltmeter | 1 | 3.00 | 3.00 | [Buy](https://www.amazon.com.mx/dp/B07P1RV5B1) |
 | 11 | PLA filament (chassis) | ~200 g | 0.02/g | 4.00 | Local |
 | 12 | LEGO Technic rack 1×13 (64781) | 1 | 3.13 | 3.13 | BrickLink |
 | 13 | Miscellaneous (wires, connectors, pins) | — | — | 5.00 | — |
-| | **💵 Total Estimated Cost** | | | **~122 USD** | |
+| | **💵 Total Estimated Cost** | | | **~154 USD** | |
 
 ---
 
@@ -944,7 +954,8 @@ See [Components & Bill of Materials](#components--bill-of-materials) below.
 - [WRO 2026 Future Engineers – General Rules (PDF)](https://wro-association.org/wp-content/uploads/WRO-2026-Future-Engineers-Self-Driving-Cars-General-Rules.pdf)
 - [WRO 2026 Engineering Journal Rubric (PDF)](https://wro-association.org)
 - [WRO GitHub Template Repository](https://github.com/World-Robot-Olympiad-Association/wro2022-fe-template)
-- [HuskyLens Arduino Library – DFRobot](https://github.com/HuskyLens/HUSKYLENSArduino)
+- [OpenMV H7 Documentation](https://docs.openmv.io/)
+- [OpenMV MicroPython Color Tracking Guide](https://docs.openmv.io/library/omv.image.html#image.Image.find_blobs)
 - [MPU6050_light Library](https://github.com/rfetick/MPU6050_light)
 - [TB6612FNG Datasheet](https://www.sparkfun.com/datasheets/Robotics/TB6612FNG.pdf)
 - [WRO 2025 Los Grises Superiores Repository](https://github.com/christopherperezcortes/WRO-2025-Future-Engineers) *(previous season)*
