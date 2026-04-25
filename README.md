@@ -331,6 +331,20 @@ We tested 1:20 and 1:50 gear options. At 1:20 the robot was too fast to react to
 | Camera | OpenMV H7 (UART streaming) | HuskyLens (I2C) | HuskyLens data rate too low; servo oscillated without continuous signal |
 
 ---
+## 💻 Source Code
+
+> 📁 Full source code available in [`src/`](./src/)
+
+The robot control system is implemented on an Arduino Nano and includes modules for sensor reading, decision-making, and motion control.
+
+Key functionalities:
+- Ultrasonic-based navigation (threshold control)
+- IMU-based yaw tracking
+- HuskyLens color detection (red/green pillars)
+- Obstacle avoidance logic
+- Parking sequence (in development)
+
+---
 
 ## Criterion 2 — Power & Sensor Architecture
 
