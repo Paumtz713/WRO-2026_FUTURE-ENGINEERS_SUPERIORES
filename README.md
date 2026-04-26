@@ -179,7 +179,7 @@ Documentation (this repository) accounts for **~25% of the total score (30/122 p
 <div align="center">
 
 ### 🧩 Open Challenge
-[![Watch the video](https://img.shields.io/badge/▶️%20Watch%20on-YouTube-red?logo=youtube&style=for-the-badge)](LINK_OPEN_CHALLENGE_2026)
+[![Watch the video](https://img.shields.io/badge/▶️%20Watch%20on-YouTube-red?logo=youtube&style=for-the-badge)](https://youtu.be/8vM5QeTv_Yk)
 
 ### 🚧 Obstacle Challenge
 [![Watch the video](https://img.shields.io/badge/▶️%20Watch%20on-YouTube-red?logo=youtube&style=for-the-badge)](LINK_OBSTACLE_CHALLENGE_2026)
@@ -187,8 +187,6 @@ Documentation (this repository) accounts for **~25% of the total score (30/122 p
 </div>
 
 > Each video shows the vehicle operating autonomously for at least 30 seconds, as required by the WRO 2026 rules (Section 7).
-
----
 
 ---
 
