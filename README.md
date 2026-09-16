@@ -617,3 +617,61 @@ When multiple objects appear, we select the largest blob because it is usually t
 
 This strategy made the robot much more stable and predictable during testing. Instead of improving the camera itself, we improved how the information was processed, which reduced false positives and gave us faster and smoother reactions.
 
+
+## Parking Strategy
+
+After finishing the 3 laps in the Obstacle Challenge, our robot performs a parallel parking maneuver inside the magenta parking zone. The system is still being refined, but our current strategy focuses more on reliability and consistency than speed.
+
+To detect the parking area, we mainly use the HC-SR04 ultrasonic sensors. We look for a larger side gap and less obstruction in front of the robot. The OpenMV H7 can also help identify the parking area if visual references are available.
+
+The maneuver is divided into three phases:
+
+| Phase | Description |
+|---|---|
+| Alignment | Position the robot parallel to the parking zone |
+| Entry | Turn smoothly into the parking space |
+| Correction | Make small adjustments until centered |
+
+During testing, we found several challenges:
+
+- Limited parking space
+- Ultrasonic noise at short distances
+- Need for precise steering timing
+
+To improve consistency, we reduced the parking speed and combined fixed steering sequences with sensor feedback. Right now, our goal is making the maneuver stable and repeatable instead of extremely fast.
+
+Future updates will include better parking detection and more dynamic corrections before the final competition.
+
+
+
+## Lateral Control Strategy
+
+Instead of using a full PID controller, we decided to use a simpler threshold-based control system combined with IMU correction. This made the robot easier to tune and more stable on the Arduino Nano.
+
+The robot constantly compares the left and right ultrasonic distances:
+
+```cpp
+error = distL - distR;
+
+If the robot gets too close to one wall, we automatically correct the steering toward the opposite side to keep the robot centered.
+
+To reduce sensor noise from the HC-SR04 sensors, we added exponential smoothing:
+
+```cpp
+suavizado = (suavizado * 0.7f) + (error * 0.3f);
+```
+
+For straight sections, the MPU6050 helps us correct small drifting errors using gyro feedback. This became especially important in the 1000 mm corridor, where long straight sections make drift more noticeable.
+
+After many tests, we tuned the control constants to reduce oscillation while still keeping fast reactions near corners.
+
+| Constant | Value |
+|-----------|--------|
+| Kp | 2.5 |
+| Ki | 0.01 |
+| Kd | 1.2 |
+
+We started with a low proportional gain and gradually increased it until the robot began oscillating. Then we reduced it slightly and added derivative damping to make the steering smoother and more stable.
+
+
+
