@@ -142,3 +142,64 @@ Later, we developed a third version focused on improving cornering performance i
 
 During the final reprint of the chassis using grey PLA filament, we encountered an unexpected problem: the drivetrain became stuck even though the motor was working correctly. After inspecting the structure, we realized that the new filament produced slightly tighter tolerances, causing friction around the rear axle housing. To solve this, we manually sanded the affected area until the shaft rotated smoothly again. After this issue, we started checking all moving parts after every print before assembling the robot.
 
+
+### Steering System
+
+The robot uses an **Ackermann steering geometry** controlled by a rack-and-pinion mechanism. The steering system was developed through several iterations during the prototyping process.
+
+In the previous prototype, we used a **Steren MOT-110 micro servo** to control the steering mechanism. This version allowed us to test the basic steering geometry and evaluate the mechanical response of the system.
+
+For the final vehicle, we decided to use an **SG90 micro servo**. The SG90 was selected for the final version because it provided the required steering movement while being compact and easy to integrate into the redesigned chassis.
+
+The servo is connected to a **LEGO Technic rack-and-pinion mechanism (part 64781)**, which converts the servo's rotational movement into the linear movement required to turn the front wheels.
+
+The steering system follows **Ackermann geometry**, allowing the inner and outer front wheels to turn at different angles during a corner. This helps the vehicle maintain a more appropriate trajectory while navigating the track.
+
+The final steering configuration consists of:
+
+* **Servo motor:** SG90 micro servo
+* **Steering mechanism:** Rack-and-pinion
+* **Rack:** LEGO Technic part 64781
+* **Steering geometry:** Ackermann
+* **Control:** Arduino Nano
+
+
+ ## Robot Photos
+
+| Front | Back | Left |
+|:---:|:---:|:---:|
+| <img src="./vehicle%20photos/frontog.png" width="250"> | <img src="./vehicle%20photos/backog.png" width="250"> | <img src="./vehicle%20photos/leftog.png" width="250"> |
+
+| Right | Top | Bottom |
+|:---:|:---:|:---:|
+| <img src="./vehicle%20photos/rightog.png" width="250"> | <img src="./vehicle%20photos/topog.png" width="250"> | <img src="./vehicle%20photos/bottomog.png" width="250"> |
+
+- Robot Weight: 0.710 kg
+
+## Robot 360º
+
+<p align="center">
+  <img src="./others/gif.gif" alt="Robot 360º" width="700">
+</p>
+
+  
+## Robot Components
+
+| Component | Quantity | Main Function |
+|---|:---:|---|
+| ESP32 Microcontroller | 1 | Main processing / communication with OpenMV and sensors |
+| Arduino Nano Microcontroller | 1 | Additional control (motor, encoders, ultrasonic sensors) |
+| OpenMV Camera | 1 | Color vision, RX/TX communication (UART) |
+| BNO085 IMU | 1 | Orientation / yaw (I2C: SCL, SDA) |
+| HC-SR04 Ultrasonic Sensor | 5 | Distance measurement (front, 2 left, 2 right) |
+| TB6612FNG Motor Driver | 1 | H-bridge for controlling the DC motor (PWMA, AIN1, AIN2, STBY) |
+| DC Motor with Encoder | 1 | Traction (uses ENC_A and ENC_B for speed feedback) |
+| 4-Channel Logic Level Converter | 1 | Adapts 3.3V ↔ 5V signals between modules (HV/LV x4) |
+| Steering Servo | 1 | Steering control (S1 signal, SER_5+ power supply) |
+| NeoPixel LEDs (WS2812) | 1 strip | Indicator lighting / vision assistance |
+| 18650 Battery | Several | Main power supply (power bank) |
+| Mini-560 Buck Converter | 2 | Voltage regulation (one line to 5V, another to 3.3V) |
+| 7805 Voltage Regulator | 2 | One for the servo (SER_5+), another for the LEDs (LEDS_5+) |
+| Digital Voltmeter | 1 | Battery voltage monitoring |
+| Main Switch | 1 | Motor / system power cutoff |
+| 2P Terminal Block | 1 | Power input (7.4V+) |
