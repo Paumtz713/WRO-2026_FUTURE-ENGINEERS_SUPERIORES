@@ -265,5 +265,76 @@ The ESP32 is the main controller of the robot. It receives the distance measurem
 | 35 | 39.2 g |
 
 
+### Traction System
+
+For the traction system, we decided to use a rear-wheel drive configuration powered by a DC motor with an integrated gearbox connected to a TB6612FNG motor driver. Both rear wheels are connected through the same drivetrain, which helped us keep the system simpler, lighter, and fully compliant with the WRO rules.
+
+During testing, we experimented with different gear ratios to find the best balance between speed and control. Some configurations made the robot extremely fast, but that also reduced the reaction time when detecting obstacles or correcting direction. Other configurations improved stability but made the robot too slow during acceleration.
+
+After multiple test sessions, we found that an approximate 1:30 gear ratio gave us the best overall performance for both challenges.
+
+| Parameter | Value |
+|---|---|
+| Drive motor | DC motor with gearbox |
+| Motor driver | TB6612FNG dual H-bridge |
+| Drive system | Rear-wheel drive |
+| Wheel configuration | Both rear wheels connected together |
+| Selected gear ratio | Approx. 1:30 |
+
+
+
+### Speed Testing
+
+| PWM Value | Approx. Speed | Main Use |
+|---|---|---|
+| 110 | ~0.28 m/s | Narrow corridor and obstacle sections |
+| 130 | ~0.36 m/s | Normal track navigation |
+| 150 | ~0.44 m/s | Open straight sections |
+
+
+
+### Gear Ratio Comparison
+
+| Gear Ratio | What Happened |
+|---|---|
+| 1:20 | The robot became too fast and reacted late to obstacles |
+| 1:50 | Acceleration became too slow for completing laps efficiently |
+| 1:30 | Best balance between speed, control, and stability |
+
+#### Mechanical Trade-offs & Decisions
+
+During the development process, we tested different ideas and components before deciding on the final configuration of the robot. In several cases, we had to choose between simplicity, performance, reliability, and compliance with the WRO rules.
+
+| System | Option We Chose | Option We Rejected | Why We Chose It |
+|---|---|---|---|
+| Chassis material | 3D-printed PLA | LEGO Technic | Allowed us to create custom shapes while reducing overall weight |
+| Steering system | Servo + rack mechanism | Differential steering | More stable and compliant with WRO steering rules |
+| Drive system | Single DC motor | Two coupled motors | Simpler wiring, lighter structure, and easier control |
+| Vision system | OpenMV H7 (UART) | HuskyLens (I2C) | OpenMV provided faster and more stable data during movement |
+
+One of the most important decisions was replacing the HuskyLens camera with the OpenMV H7. During testing, we noticed that the HuskyLens sometimes sent data too slowly, which caused unstable steering corrections and servo oscillation. After switching back to the OpenMV system, the robot behaved much more smoothly and consistently during autonomous navigation.**
+
+
+####  Structural Components (3D Design) 
+
+<div align="center">
+
+| Central Sensor Mount | Side Sensor Mounts | Rear Support |
+|:--:|:--:|:--:|
+| <img width="250" height="250" alt="Central Sensor Mount" src="models/Soporte_sensor_central.png" /> | <img width="250" height="250" alt="Side Sensor Mounts" src="models/Soporte_sensores_laterales.png" /> | <img width="250" height="250" alt="Rear Support" src="models/Soporte_trasero.png" /> |
+
+| External Supports | Internal Supports | Directional Module |
+|:--:|:--:|:--:|
+| <img width="250" height="250" alt="External Supports" src="models/Soportes_externos.png" /> | <img width="250" height="250" alt="Internal Supports" src="models/Soportes_internos.png" /> | <img width="250" height="250" alt="Directional Module" src="models/Direccional.png" /> |
+
+| Lower Body | Upper Body | Full Base Structure |
+|:--:|:--:|:--:|
+| <img width="250" height="250" alt="Lower Body" src="models/Cuerpo_inferior.png" /> | <img width="250" height="250" alt="Upper Body" src="models/Cuerpo_superior.png" /> | <img width="250" height="250" alt="Full Base Structure" src="models/Estructura_base.png" /> |
+
+</div>
+
+---
+
+
 | Main Switch | 1 | Motor / system power cutoff |
 | 2P Terminal Block | 1 | Power input (7.4V+) |
