@@ -197,9 +197,17 @@ The final steering configuration consists of:
 
 Our robot uses two main programs that work together. The Arduino Nano handles the distance sensors and LED strips, while the ESP32 acts as the main controller of the robot.
 
+### Sensor Codes
+
+- [ESP32 Open Optimized](./ESP32_Open_Optimizado.ino) — Main control code that processes the sensor data and manages the robot's movement.
+
+- [Nano Sensors I2C 3x8](./Nano_Sensors_I2C_3x8.ino) — Reads the ultrasonic sensors through I2C and sends distance measurements to the ESP32.
+
+- [Obstacle & Parking Exit](./OBSTACULOS_Salida_del_parking.ino) — Controls obstacle detection and the sequence used to exit the initial parking area.
 ### Arduino Nano — Sensors & LEDs
 
 The Arduino Nano works as an assistant to the ESP32. It measures the five ultrasonic sensors, controls three strips of eight LEDs, and communicates the sensor measurements to the ESP32 through I2C.
+
 
 **Main functions:**
 
