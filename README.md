@@ -548,3 +548,72 @@ Before testing or competing, we calibrate different parts of the robot to make s
 | Steering Servo | Adjusting the steering center value manually | After rebuilding or modifying the chassis |
 
 These calibration steps helped us improve steering accuracy, sensor stability, and overall consistency during autonomous runs.
+
+
+# Criterion 3 — Software Architecture & Obstacle Strategy
+
+## System Overview
+
+Our entire control system runs on a single Arduino Nano. All the sensor reading, steering corrections, obstacle detection, and movement decisions happen inside the same main loop.
+
+Instead of using multiple processors, we decided to keep everything on one controller because it made the robot easier to debug, modify, and test throughout the season. After several iterations, this setup gave us stable performance and fast enough response times for both challenges.
+
+To keep the code organized, we divided the program into different modules.
+
+| Module | Main Functions | What It Does |
+|---|---|---|
+| IMU | `actualizarIMU()` | Tracks robot rotation and yaw |
+| Ultrasonics | `medirDistancia()` | Measures wall distances |
+| Lateral Control | Steering correction logic | Keeps the robot centered |
+| OpenMV | `parseOpenMV()` | Receives obstacle detection data |
+| Drive | `avanzar()`, `girarSuave()` | Controls movement and steering |
+| Start Sequence | `faseInicio` | Handles startup alignment |
+
+
+
+## State Machine
+
+To organize the robot behavior, we created different operating states depending on what the robot detects during the run.
+
+| State | Purpose |
+|---|---|
+| START | Initial alignment before moving |
+| LANE_FOLLOW | Normal navigation and wall following |
+| AVOID_COLOR | Obstacle avoidance using camera detection |
+| EMERGENCY | Collision prevention and recovery |
+| STOP | End of the run after completing laps |
+
+The robot constantly switches between these states depending on sensor readings and track conditions. Emergency actions always have the highest priority to avoid crashes.
+
+
+
+## Open Challenge Algorithm
+
+At the start of every run, we initialize all the sensors, calibrate the IMU, and wait for the start button. Once the run begins, the robot continuously reads wall distances, updates orientation data, and adjusts steering depending on the track conditions.
+
+We also implemented adaptive speed control. In narrow sections, the robot slows down to improve stability and avoid collisions. In wider sections, it increases speed to complete laps more efficiently.
+
+For lap counting, we use the MPU6050 gyroscope. Every detected 90° turn increases the accumulated yaw value until reaching the equivalent of three complete laps. Once that value is reached, the robot stops automatically.
+
+This method allowed us to make the lap counting system work correctly in both clockwise and counterclockwise runs without needing separate logic for each direction.
+
+## Vision Processing Strategy (ROIs)
+
+We noticed that using the full camera image caused a lot of unstable detections. Reflections from the floor, random objects, and unnecessary data sometimes made the robot react too late or steer incorrectly.
+
+To solve this, we divided the image into different Regions of Interest (ROIs), so the OpenMV only focuses on the most important parts of the frame.
+
+
+
+### WS2812B RGB LED Matrix Module (4x4 / 16-bit)
+
+To ensure reliable vision processing under varying ambient lighting conditions on the track, we integrated a 4x4 WS2812B RGB LED matrix module. Shadowing and uneven venue illumination previously affected color thresholding on the OpenMV H7 camera. By mounting this addressable LED matrix directly near the camera's field of view, we provide consistent, controlled lighting. This significantly improves the camera's ability to accurately detect and distinguish between red and green traffic pillars during the Obstacle Challenge.
+## ROI	Purpose
+Upper ROI	Detect pillars early and prepare the turn
+Middle ROI	Main decision area for obstacle avoidance
+Lower ROI	Ignore floor reflections and false detections
+
+When multiple objects appear, we select the largest blob because it is usually the closest obstacle. We also added a small delay (~300 ms) to avoid repeated detections during turns.
+
+This strategy made the robot much more stable and predictable during testing. Instead of improving the camera itself, we improved how the information was processed, which reduced false positives and gave us faster and smoother reactions.
+
