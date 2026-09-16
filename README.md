@@ -664,6 +664,232 @@ After many tests, we tuned the control constants to reduce oscillation while sti
 
 We started with a low proportional gain and gradually increased it until the robot began oscillating. Then we reduced it slightly and added derivative damping to make the steering smoother and more stable.
 
+# Power, Sensors and Software Architecture
+
+## Power Architecture
+
+The robot is powered by two 18650 batteries rated at 3.7 V each.
+
+The batteries provide power to both the motors and the electronic systems of
+the robot. The power system supplies the robot's control boards, sensors and
+actuators.
+
+### Battery Voltage Monitoring
+
+A small digital voltmeter is connected to the robot to monitor the battery
+voltage during testing.
+
+During our tests, we observed that when the battery voltage reaches
+approximately 7 V or below, the robot's movement becomes slower and its
+performance changes.
+
+Because of this, we monitor the battery voltage before and during testing to
+help maintain consistent robot performance.
+
+### Power System Failure and Iteration
+
+On July 18, 2026, we experienced a power-related failure caused by connecting
+the batteries in the wrong orientation. This caused one of the boards to burn.
+
+After this incident, we became more careful when connecting the batteries and
+checking their polarity before powering the robot.
+
+This experience showed us the importance of verifying the power connections
+before every test.
+
+## Sensor Architecture
+
+The robot uses ultrasonic sensors, an orientation sensor and a camera to
+understand its environment and navigate the course.
+
+### Ultrasonic Sensors
+
+The ultrasonic sensors are distributed around the robot:
+
+| Sensor | Position | Purpose |
+|---|---|---|
+| Sensor 1 | Front | Detect obstacles in front of the robot |
+| Sensors 2–3 | Right side | Detect obstacles and distances on the right |
+| Sensors 4–5 | Left side | Detect obstacles and distances on the left |
+
+We selected these positions so that the robot could detect obstacles not only
+on its sides but also in front of it.
+
+The front sensor helps the robot detect obstacles before reaching them,
+reducing the possibility of collisions.
+
+The side sensors provide additional distance information during navigation and
+help the robot understand the space around it.
+
+### Sensor Testing and Reliability
+
+Before testing the complete robot, we check that the ultrasonic sensors are
+working correctly and providing valid readings.
+
+The sensor programming has already been tested and adjusted, and all of the
+ultrasonic sensors currently operate correctly.
+
+During our testing, we have not experienced failures with the ultrasonic
+sensors.
+
+## BNO085
+
+The BNO085 orientation sensor is used as a lap/turn counter.
+
+The sensor provides orientation information that allows the robot to keep
+track of its turns while navigating the course.
+
+## OpenMV
+
+The OpenMV camera is responsible for detecting the colors of the blocks.
+
+The robot uses the detected block color to determine which direction it should
+take:
+
+| Detected Color | Direction |
+|---|---|
+| Green | Left |
+| Red | Right |
+
+This allows the robot to determine the appropriate direction when approaching
+an obstacle.
+
+# Software Architecture
+
+The robot combines information from several electronic systems to control its
+movement and navigate the course.
+
+### Main Systems
+
+- **OpenMV:** Detects the color of the blocks.
+- **HC-SR04:** Measures distances around the robot.
+- **BNO085:** Provides orientation information used to count turns/laps.
+- **PID control:** Controls and corrects the robot's movement.
+
+## PID Control
+
+The robot uses PID control as part of its movement control system.
+
+PID continuously adjusts the robot's movement according to the difference
+between the desired movement and the current behavior of the robot.
+
+This allows the robot to make corrections while moving instead of relying only
+on fixed movement commands.
+
+# Obstacle Strategy
+
+Obstacle detection combines the information obtained from the OpenMV camera
+and the ultrasonic sensors.
+
+The OpenMV identifies the color of the obstacle, while the ultrasonic sensors
+provide distance information around the robot.
+
+When a colored block is detected:
+
+1. The OpenMV identifies the block color.
+2. The robot determines the required direction.
+3. A green block results in a left direction.
+4. A red block results in a right direction.
+5. The ultrasonic sensors provide distance information to help prevent
+   collisions.
+
+This combination allows the robot to use both visual and distance information
+during obstacle navigation.
+
+# Testing and Iteration
+
+Testing has been an important part of the development process.
+
+During testing, we identified several aspects that could affect the robot's
+performance:
+
+- Battery voltage affects the robot's movement speed.
+- Incorrect battery orientation can damage the electronics.
+- Sensor placement is important for detecting obstacles around the robot.
+- Sensor operation is checked before testing.
+- The OpenMV color detection determines the direction used for obstacle
+  navigation.
+- PID control is used to continuously correct the robot's movement.
+
+The current sensor configuration was maintained because the ultrasonic sensors
+have operated correctly during our tests and provide coverage of the front,
+left and right sides of the robot.
+
+# Engineering Decisions
+
+Our design decisions were based on the behavior observed during testing.
+
+### Sensor Placement
+
+We distributed the ultrasonic sensors across the front and both sides of the
+robot instead of concentrating them in a single area.
+
+The reason was to give the robot information about obstacles in multiple
+directions and reduce the possibility of reaching the blocks without detecting
+them.
+
+### Battery Monitoring
+
+We added a digital voltmeter to monitor the battery voltage because testing
+showed that lower battery voltage affects the robot's movement.
+
+This gives us a direct way to check the battery condition during testing.
+
+### Color-Based Direction
+
+We use the OpenMV camera to distinguish between red and green blocks.
+
+The color determines the direction:
+
+- Green → Left
+- Red → Right
+
+This provides the robot with a visual decision-making system for obstacle
+navigation.
+
+### Power Connection Safety
+
+After the board failure on July 18, 2026 caused by reversing the battery
+orientation, checking battery polarity became an important part of our testing
+procedure.
+
+# System Interaction
+
+The robot's subsystems work together during navigation.
+
+![System Interaction Diagram](./others/diagram.png)
+
+The OpenMV camera detects the color of the obstacle and provides red or green
+information to the navigation system.
+
+The HC-SR04 ultrasonic sensors provide distance information, while the BNO085
+provides orientation information used to count turns/laps.
+
+The navigation system uses this information to determine the appropriate
+movement. PID control is then used to correct the robot's movement before the
+commands are sent to the motors.
+
+# Testing Workflow
+
+Before each complete robot test, we check the operation of the sensors and
+verify the battery connection.
+
+The general testing process is:
+
+1. Check the battery polarity.
+2. Check the battery voltage.
+3. Verify that the ultrasonic sensors are operating correctly.
+4. Verify the OpenMV color detection.
+5. Check the BNO085 orientation information.
+6. Run the robot.
+7. Observe its movement and navigation.
+8. Identify problems or changes in performance.
+9. Adjust the system when necessary.
+10. Repeat the test.
+
+This iterative process has helped us identify problems related to power,
+sensor operation and robot movement.
+
 
 # Testing & Tuning
 
