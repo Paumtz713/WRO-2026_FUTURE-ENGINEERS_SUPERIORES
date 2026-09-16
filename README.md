@@ -8,24 +8,7 @@
 > Due to an issue locating the main repository during the initial development phase, previous documentation and progress updates were temporarily tracked in a secondary repository. You can review the prior commits and documentation at the following link:
 > https://github.com/daiilvvyeyo/WRO-2026-Future-Engineers-Superiores
 
-## Social Media
-
-<p align="center">
-  <a href="https://www.facebook.com/share/19RiiDTZch/">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg"
-         width="45" alt="Facebook">
-  </a>
-  &nbsp;&nbsp;&nbsp;
-  <a href="https://www.instagram.com/losgrisesrt/">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/instagram/instagram-original.svg"
-         width="45" alt="Instagram">
-  </a>
-  &nbsp;&nbsp;&nbsp;
-  <a href="https://www.tiktok.com/@losgrisesrobotics">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tiktok/tiktok-original.svg"
-         width="45" alt="TikTok">
-  </a>
-</p>
+<p align="center"> <a href="https://www.facebook.com/share/19RiiDTZch/"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" width="45" alt="Facebook"> </a> &nbsp;&nbsp;&nbsp; <a href="https://www.instagram.com/losgrisesrt/"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" width="45" alt="Instagram"> </a> &nbsp;&nbsp;&nbsp; <a href="https://www.tiktok.com/@losgrisesrobotics"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" width="45" alt="TikTok"> </a> </p>
 
 ## Team Members
 
