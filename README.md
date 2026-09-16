@@ -394,3 +394,92 @@ One of the most important decisions was replacing the HuskyLens camera with the 
     </td>
   </tr>
 </table>
+
+
+## Source Code
+
+Full source code available in `src/`
+
+Our robot is controlled using an Arduino Nano, where we manage sensor reading, steering control, obstacle reactions, and movement decisions. Throughout the season, we continuously tested and adjusted the code to improve stability and response time during both challenges.
+
+Some of the main functions implemented in our code include:
+
+- Ultrasonic-based wall navigation
+- IMU yaw tracking and lap counting
+- OpenMV color detection for red and green pillars
+- Obstacle avoidance logic
+- Parking sequence development
+
+
+
+# Criterion 2 — Power & Sensor Architecture
+
+## Power System & Budget
+
+To power the robot, we use two Steren Li-ion 3.7V batteries connected in series, providing a total of 7.4V. We separated the power system into two rails: one dedicated to the electronic components and another one for the motor system. This helped us reduce electrical noise and achieve more stable sensor readings during movement.
+
+| Rail | Components Powered | Estimated Consumption |
+|---|---|---|
+| 5V Logic Rail | Arduino Nano, MPU6050, OpenMV H7, HC-SR04 sensors | ~600 mA |
+| Motor Rail | TB6612FNG + DC motor | ~1.5 A |
+
+We used a Mini 560 step-down regulator to provide a stable 5V supply for the electronic components. During testing, this configuration proved reliable even when the motor rapidly changed speed.
+
+One issue we considered was battery voltage drop during long testing sessions. When the voltage became too low, the robot started losing motor performance and sensor stability. Because of this, we added a small digital voltmeter directly on the chassis to monitor battery voltage before every run.
+
+
+
+## Ultrasonic Sensor Expansion
+
+During early testing with 3 sensors, we noticed that the robot couldn't measure distances accurately enough to maintain precise wall centering. To solve this and improve spatial awareness, we upgraded our setup to 5 HC-SR04 ultrasonic sensors: 2 on the right side, 2 on the left side, and 1 in the front center.
+
+| Sensor | Position | Purpose |
+| --- | --- | --- |
+| Front | Front center | Detect walls and corners ahead |
+| Left (×2) | Left side | Measure distance and alignment to left wall |
+| Right (×2) | Right side | Measure distance and alignment to right wall |
+### Power Consumption
+
+| Component | Approx. Current |
+|---|---|
+| Arduino Nano | 20 mA |
+| MPU6050 | 3.9 mA |
+| OpenMV H7 | ~280 mA |
+| HC-SR04 ×5 | ~75 mA |
+| Steering Servo | ~200 mA |
+| DC Motor | 800–1500 mA |
+
+
+
+## Wiring Diagram
+
+Full wiring diagrams available in `schemes/`
+
+The electrical system was designed to keep the wiring as organized and compact as possible inside the chassis. Most components are connected directly to the Arduino Nano and distributed through the PCB designed by the team.
+
+### Main Connections
+
+| Component | Connection |
+|---|---|
+| MPU6050 | SDA → A4 / SCL → A5 |
+| OpenMV H7 | UART TX/RX |
+| Front Ultrasonic | TRIG → D7 / ECHO → D6 |
+| Left Ultrasonic | TRIG → D3 / ECHO → D2 |
+| Right Ultrasonic | TRIG → D5 / ECHO → D4 |
+| DC Motor Driver | AIN1 → D10 / AIN2 → D11 / PWMA → D9 |
+| Steering Servo | Signal → D8 |
+
+The MPU6050 communicates through I2C, while the OpenMV camera uses UART communication. This allowed us to keep the I2C bus dedicated only to the IMU and helped improve communication stability between modules.
+
+
+
+## PCB & Iteration Problems
+
+To keep the internal wiring cleaner and more organized, we designed a custom PCB to centralize all the electrical connections inside the robot. Compared to direct wiring, this helped us reduce cable clutter, simplify debugging, and improve overall reliability during movement.
+
+During one of our testing sessions, we accidentally inserted the batteries backward into the power rail. This reverse polarity connection caused the Li-ion battery to short-circuit and emit smoke due to thermal overload. 
+
+Fortunately, none of our main sensors or microcontrollers suffered permanent damage. However, to prevent potential trace degradation or instability in the power lines, we solved this issue by replacing the damaged board with a spare custom PCB we already had available.
+
+Additionally, during our first PCB assembly, excess solder created small bridges between nearby PCB traces, causing interference between the TRIG and ECHO signals of the sensors. We solved this by removing the excess solder with desoldering braid and re-soldering the affected areas. Once cleaned, the readings stabilized completely.
+
