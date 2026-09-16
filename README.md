@@ -338,3 +338,59 @@ One of the most important decisions was replacing the HuskyLens camera with the 
 
 | Main Switch | 1 | Motor / system power cutoff |
 | 2P Terminal Block | 1 | Power input (7.4V+) |
+
+
+####  Main Chassis Structure
+
+<div align="center">
+
+| Lower Body | Upper Body |
+|:--:|:--:|
+| <img width="350" height="350" src="models/Cuerpo_inferior.png" /> | <img width="350" height="350" src="models/Cuerpo_superior.png" /> |
+
+</div>
+---
+
+####  Complete Aseembly
+
+<div align="center">
+
+| Full Base Structure |
+|:--:|
+| <img width="500" height="500" src="models/Estructura_base.png" /> |
+
+</div>
+
+---
+
+####  Steering Component
+
+<div align="center">
+
+| Directional Module |
+|:--:|
+| <img width="350" height="350" src="models/Direccional.png" /> |
+
+</div>
+---
+
+## PCB & Wiring Implementation
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <strong>PCB Design</strong><br><br>
+      <img src="schemes/PCB.png" width="100%">
+    </td>
+    <td align="center" width="50%">
+      <strong>Real PCB</strong><br><br>
+      <img src="schemes/PCB_Real.png" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <strong>PCB Schematic</strong><br><br>
+      <img src="schemes/PCB_Schematic.png" width="100%">
+    </td>
+  </tr>
+</table>
