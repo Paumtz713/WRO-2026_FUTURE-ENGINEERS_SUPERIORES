@@ -201,5 +201,69 @@ The final steering configuration consists of:
 | Mini-560 Buck Converter | 2 | Voltage regulation (one line to 5V, another to 3.3V) |
 | 7805 Voltage Regulator | 2 | One for the servo (SER_5+), another for the LEDs (LEDS_5+) |
 | Digital Voltmeter | 1 | Battery voltage monitoring |
+
+## Code
+
+Our robot uses two main programs that work together. The Arduino Nano handles the distance sensors and LED strips, while the ESP32 acts as the main controller of the robot.
+
+### Arduino Nano — Sensors & LEDs
+
+The Arduino Nano works as an assistant to the ESP32. It measures the five ultrasonic sensors, controls three strips of eight LEDs, and communicates the sensor measurements to the ESP32 through I2C.
+
+**Main functions:**
+
+* Reads five ultrasonic distance sensors.
+* Controls 24 LEDs arranged in three strips of eight.
+* Sends distance measurements to the ESP32.
+* Receives the LED intensity level from the ESP32.
+* Uses I2C communication at address `0x08`.
+
+[View Arduino Nano Code](./codes/Nano_Sensores_I2C_3x8.ino)
+
+### ESP32 — Main Robot Control
+
+The ESP32 is the main controller of the robot. It receives the distance measurements from the Arduino Nano and uses them to control the motor, steering, speed, safety systems, lap counting, and final parking sequence.
+
+**Main functions:**
+
+* Receives data from the five distance sensors.
+* Controls the DC motor through the TB6612FNG.
+* Controls the SG90 steering servo.
+* Uses the BNO085 to track orientation and count three laps.
+* Uses the encoder to detect actual wheel movement.
+* Maintains the robot centered using PID control.
+* Detects walls and corners.
+* Adjusts speed according to track conditions.
+* Performs emergency reverse maneuvers.
+* Executes the final movement after completing three laps.
+* Provides an optional Wi-Fi dashboard for monitoring the robot.
+
+[View ESP32 Code](./codes/ESP32_Open_Optimizado.ino)
+
+
+
+# LEGO Set Use
+
+| BLItemNo | ElementId | LdrawId | Part Name | BLColorId | LDrawColorId | Color Name | Qty | Weight (g) | Price per piece (USD) | Total (USD) |
+|----------|------------|----------|------------|------------|----------------|-------------|-----|--------------|-------------------------|---------------|
+| 6589 | 4565452 | 6589.dat | Technic Gear 12 Tooth Bevel | 19 | 19 | Tan | 3 | 0.40 | 0.15 | 0.45 |
+| 3713 | 6275844 | 3713.dat | Technic Bush | 86 | 7 | Light Bluish Gray | 6 | 0.20 | 0.05 | 0.30 |
+| 32523 | 4142822 | 32523.dat | Technic Liftarm 1 x 3 | 11 | 0 | Black | 2 | 0.80 | 0.20 | 0.40 |
+| 39367pb01 | 6460453 | 39367.dat | Wheel 56 x 14 Technic | 102 | 9 | Blue | 4 | 5.50 | 1.50 | 6.00 |
+| 62821b | — | 62821.dat | Technic Differential Gear (Closed) | 85 | 8 | Dark Bluish Gray | 1 | 3.50 | 3.50 | 3.50 |
+| 87083 | 6083620 | 87083.dat | Technic Axle 4L with Stop | 85 | 8 | Dark Bluish Gray | 4 | 0.60 | 0.10 | 0.40 |
+| 94925 | 4640536 | 94925.dat | Technic Gear 16 Tooth | 86 | 7 | Light Bluish Gray | 4 | 0.50 | 0.20 | 0.80 |
+| 43093 | — | 43093.dat | Technic Axle 1L with Pin | 102 | 9 | Blue | 2 | 0.30 | 0.15 | 0.30 |
+| 43093 | — | 43093.dat | Technic Axle 1L with Pin | 19 | 19 | Tan | 2 | 0.30 | 0.15 | 0.30 |
+| 48989 | 6282158 | 48989.dat | Technic Pin Connector Perpendicular 3L | 86 | 7 | Light Bluish Gray | 2 | 1.00 | 0.30 | 0.60 |
+| 40490 | 4645732 | 40490.dat | Technic Liftarm 1 x 9 | 15 | 15 | White | 1 | 1.20 | 0.50 | 0.50 |
+| 32523 | 4142822 | 32523.dat | Technic Liftarm 1 x 3 | 11 | 0 | Black | 2 | 0.80 | 0.20 | 0.40 |
+| 4265c | 6271167 | 4265c.dat | Technic Bush 1/2 Smooth | 3 | 14 | Yellow | 2 | 0.10 | 0.10 | 0.20 |
+
+| TOTAL PARTS | TOTAL WEIGHT |
+|--------------|----------------|
+| 35 | 39.2 g |
+
+
 | Main Switch | 1 | Motor / system power cutoff |
 | 2P Terminal Block | 1 | Power input (7.4V+) |
