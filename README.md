@@ -674,4 +674,42 @@ After many tests, we tuned the control constants to reduce oscillation while sti
 We started with a low proportional gain and gradually increased it until the robot began oscillating. Then we reduced it slightly and added derivative damping to make the steering smoother and more stable.
 
 
+# Testing & Tuning
+
+| Test | Result | Adjustment |
+|------|---------|-------------|
+| Open Challenge (wide corridor) | 18/20 successful runs | — |
+| Open Challenge (narrow corridor) | 14/20 successful runs | Reduced speed to PWM 110 |
+| Obstacle avoidance | 17/20 correct detections | Increased detection timeout |
+| IMU lap counting | 20/20 correct | — |
+| Startup alignment | 19/20 centered correctly | Improved alignment gain |
+
+Most of our tuning focused on making the robot more stable under different corridor sizes and lighting conditions.
+
+## Problems & Iterations
+
+During the development of our robot, we faced several problems related to mechanics, electronics, and software.  
+Instead of ignoring them, we used each issue as an opportunity to improve the robot and better understand how every part of the system behaves in real conditions.
+
+| Problem | Impact | Solution |
+|----------|--------|----------|
+| Excessive dimensions in the original LEGO chassis | The robot struggled in tight curves and narrow sections | We redesigned the structure and moved to a more compact and lightweight 3D-printed chassis |
+| Signal instability in sensors | We noticed inconsistent wall detection and unstable trajectory corrections | We created a custom PCB and improved the soldering quality to reduce electrical noise and improve reliability |
+| Limitations in simultaneous color detection | Sometimes the robot reacted incorrectly to obstacles | We optimized the OpenMV firmware and improved the AI processing logic for more stable detections |
+| Insufficient internal space for components | Organizing the electronics and wiring became difficult inside the chassis | We slightly increased the chassis length to create more internal space and improve cable management |
+
+# Evolution From 2025 to 2026
+
+Our 2026 robot is not just a small upgrade from the 2025 version. We rebuilt almost the entire system based on everything we learned during the international competition.
+
+| System | 2025 | 2026 Final |
+|--------|------|-------------|
+| Chassis | LEGO Technic | Custom 3D-printed PLA |
+| Vision | OpenMV H7 | OpenMV H7 |
+| Controller | EV3 Brick | Arduino Nano |
+| Steering | EV3 motor | Steren MOT-110 servo |
+| Weight | ~1.2 kg | ~0.7 kg |
+
+One of the biggest changes happened mid-season when we replaced the HuskyLens with the OpenMV H7 again. During testing, the HuskyLens was not sending enough continuous data, causing the steering servo to oscillate. Switching back to OpenMV solved the issue and gave us much smoother and more stable control.
+
 
