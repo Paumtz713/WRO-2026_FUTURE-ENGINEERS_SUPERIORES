@@ -3,6 +3,11 @@
   <img src="others/banner.png" alt="SUPERIORES" width="100%" style="border-radius: 20px;">
 </p>
 
+> [!NOTE]
+> **Documentation Migration Notice**
+> Due to an issue locating the main repository during the initial development phase, previous documentation and progress updates were temporarily tracked in a secondary repository. You can review the prior commits and documentation at the following link:
+> https://github.com/daiilvvyeyo/WRO-2026-Future-Engineers-Superiores
+
 ##  Social Media
 
 <p align="center">
@@ -762,7 +767,6 @@ We also documented and solved several hardware problems during development, incl
 The repository includes the full Arduino code, wiring diagrams, PCB schematics, STL files, and robot photos so the entire project can be reproduced and improved in the future.
 
 
-
 # Components & Cost
 
 | Component | Qty |
@@ -776,5 +780,43 @@ The repository includes the full Arduino code, wiring diagrams, PCB schematics, 
 | Li-ion Batteries | 2 |
 
 **Estimated total cost: approximately 154 USD**
+
+# In conclusion (●'◡'●)
+
+This repository documents the complete development process of our WRO 2026 Future Engineers robot, from the first design concepts to the latest competition-ready version.
+
+Throughout the season, we redesigned almost every part of the system based on testing, failures, and continuous improvements. The project includes a fully custom 3D-printed chassis, Arduino Nano control system, OpenMV H7 vision processing, ultrasonic navigation, IMU-based lap tracking, and obstacle avoidance strategies developed specifically for the 2026 rules.
+
+Instead of focusing only on final results, this repository also documents the engineering decisions behind the robot, including hardware changes, software iterations, PCB problems, steering improvements, sensor calibration, and real testing data collected during development.
+
+Our goal was to build a robot that is not only competitive, but also understandable, reliable, and fully developed by our team through experimentation and iteration.
+
+This repository contains:
+- Full Arduino source code
+- Wiring diagrams and PCB schematics
+- 3D models and printable STL files
+- Robot photos and assembly references
+- Engineering documentation and testing results
+- Development history and design decisions
+
+We hope this project can also help future teams learn more about robotics, engineering design, and autonomous vehicle development.
+
+
+<div align="center">
+
+# THANK YOU FOR READING (´▽｀)
+
+### Thank you for taking the time to explore our project and follow our development process throughout the WRO 2026 season.
+
+### We truly appreciate your time, interest, and support.
+
+<br>
+
+**Team Superiores**  
+*WRO Future Engineers 2026*
+
+
+
+</div>
 
 
