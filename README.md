@@ -712,4 +712,69 @@ Our 2026 robot is not just a small upgrade from the 2025 version. We rebuilt alm
 
 One of the biggest changes happened mid-season when we replaced the HuskyLens with the OpenMV H7 again. During testing, the HuskyLens was not sending enough continuous data, causing the steering servo to oscillate. Switching back to OpenMV solved the issue and gave us much smoother and more stable control.
 
+## Vehicle Evolution — Before & After
+
+| View | Before | After |
+|:---:|:---:|:---:|
+| **Front** | <img src="./vehicle%20photos/front.png" width="250"> | <img src="./vehicle%20photos/frontog.png" width="250"> |
+| **Back** | <img src="./vehicle%20photos/back.png" width="250"> | <img src="./vehicle%20photos/backog.png" width="250"> |
+| **Left** | <img src="./vehicle%20photos/left.png" width="250"> | <img src="./vehicle%20photos/leftog.png" width="250"> |
+| **Right** | <img src="./vehicle%20photos/right.png" width="250"> | <img src="./vehicle%20photos/rightog.png" width="250"> |
+| **Top** | <img src="./vehicle%20photos/top.png" width="250"> | <img src="./vehicle%20photos/topog.png" width="250"> |
+| **Bottom** | <img src="./vehicle%20photos/bottom.png" width="250"> | <img src="./vehicle%20photos/bottomog.png" width="250"> |
+
+
+
+
+# Engineering Decisions & Trade-offs
+
+Throughout development, we constantly balanced simplicity, reliability, and performance.
+
+| Decision | Why we chose it |
+|----------|-----------------|
+| Arduino Nano instead of Raspberry Pi | Easier to debug and understand as a team |
+| OpenMV instead of HuskyLens | More stable continuous data stream |
+| Short wheelbase | Better turning radius in tight corridors |
+| Threshold-based control | More predictable than a complex PID setup |
+
+We focused on building a system that every team member could fully understand and maintain instead of relying on overly complex solutions.
+
+
+
+# Risk Analysis
+
+| Risk | Mitigation |
+|------|-------------|
+| IMU drift | Accumulated yaw tracking |
+| Wrong color detection | Largest blob selection + timeout |
+| Battery voltage drop | Voltmeter checks before runs |
+| Wall collisions | Adaptive speed reduction |
+| Servo drift | IMU correction on straight sections |
+
+We also documented and solved several hardware problems during development, including PCB solder bridges and drivetrain binding after reprinting the chassis.
+
+## Wiring Diagram
+
+<p align="center">
+  <img src="others/scheme.png" alt="Robot Wiring Diagram" width="900">
+</p>
+
+The repository includes the full Arduino code, wiring diagrams, PCB schematics, STL files, and robot photos so the entire project can be reproduced and improved in the future.
+
+
+
+# Components & Cost
+
+| Component | Qty |
+|-----------|-----|
+| OpenMV H7 | 1 |
+| Arduino Nano | 1 |
+| HC-SR04 | 3 |
+| MPU6050 | 1 |
+| TB6612FNG | 1 |
+| Steren MOT-110 Servo | 1 |
+| Li-ion Batteries | 2 |
+
+**Estimated total cost: approximately 154 USD**
+
 
