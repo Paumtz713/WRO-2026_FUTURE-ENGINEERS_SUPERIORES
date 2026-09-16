@@ -483,3 +483,68 @@ Fortunately, none of our main sensors or microcontrollers suffered permanent dam
 
 Additionally, during our first PCB assembly, excess solder created small bridges between nearby PCB traces, causing interference between the TRIG and ECHO signals of the sensors. We solved this by removing the excess solder with desoldering braid and re-soldering the affected areas. Once cleaned, the readings stabilized completely.
 
+
+
+## Sensor Selection & Placement
+
+### HC-SR04 Ultrasonic Sensors
+
+During early testing with 3 sensors, we noticed that the robot couldn't measure distances accurately enough to maintain precise wall centering. To solve this and improve spatial awareness, we upgraded our setup to 5 HC-SR04 ultrasonic sensors: 2 on the right side, 2 on the left side, and 1 in the front center.
+
+| Sensor | Position | Purpose |
+| --- | --- | --- |
+| Front | Front center | Detect walls and corners ahead |
+| Left (×2) | Left side | Measure distance and alignment to left wall |
+| Right (×2) | Right side | Measure distance and alignment to right wall |
+
+
+
+### MPU6050 IMU
+
+The MPU6050 is used mainly for yaw tracking and orientation correction. We use the gyroscope data to count turns, detect drift, and calculate completed laps during autonomous navigation.
+
+Some of the main functions of the IMU in our robot are:
+
+- Counting 90° turns
+- Correcting drift on straight sections
+- Determining lap completion through accumulated yaw
+
+Before every run, the robot performs a short calibration process while remaining completely still. This allows the IMU to calculate sensor offsets and improve accuracy during movement.
+
+
+
+### Camera — OpenMV H7
+
+For vision processing, we currently use an OpenMV H7 camera connected through UART communication.
+
+| Parameter | Value |
+|---|---|
+| Resolution | 320 × 240 px |
+| Communication | UART (115200 baud) |
+| Detection Mode | Color blob tracking |
+| Objects Detected | Red and green pillars |
+| Frame Rate | ~30 FPS |
+| Camera Position | Front-center, tilted downward |
+
+At the beginning of the season, we originally planned to use a HuskyLens camera because it was easier to integrate and already included built-in object detection features. However, during testing we discovered that the HuskyLens was sending data too slowly for our steering system.
+
+Because the Arduino was not receiving continuous detection updates, the steering servo started oscillating and the robot moved inconsistently during straight sections.
+
+To solve this problem, we switched back to the OpenMV H7 platform that we had already used during the 2025 season. Using a custom MicroPython script, the OpenMV continuously sends detection data to the Arduino through UART communication, resulting in much smoother and more stable steering behavior.
+
+Although the OpenMV required more programming and communication handling, the improvement in reliability and response time made the change completely worth it.
+
+After several tests, we also found that mounting the camera with a slight downward angle produced the best detection results without capturing too much of the floor or reducing detection range.
+
+## Calibration Methods
+
+Before testing or competing, we calibrate different parts of the robot to make sure everything works consistently on the track.
+
+| Component | How We Calibrate It | When |
+|---|---|---|
+| MPU6050 | Using `calcOffsets()` while the robot stays still | Before every run |
+| OpenMV H7 | Adjusting LAB color thresholds in OpenMV IDE | Before testing and competitions |
+| HC-SR04 Sensors | Comparing readings with real measured distances | During testing |
+| Steering Servo | Adjusting the steering center value manually | After rebuilding or modifying the chassis |
+
+These calibration steps helped us improve steering accuracy, sensor stability, and overall consistency during autonomous runs.
