@@ -1,39 +1,45 @@
-# SUPERIORES_FUTURE ENGINEERS_WRO 2026
+# WRO 2026 Future Engineers Superiores
+<p align="center">
+  <img src="others/banner.png" alt="SUPERIORES" width="100%" style="border-radius: 20px;">
+</p>
 
-Official repository of **Team Los Grises Superiores** for the **Future Engineers – World Robot Olympiad 2026**.
+##  Social Media
 
-> **Season theme:** Autonomous Self-Driving Cars — Open Championship Online  
-> **Category:** Future Engineers | **Age group:** 14–22
+<p align="center">
+  <a href="https://www.facebook.com/share/19RiiDTZch/">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" width="45" alt="Facebook">
+  </a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="https://www.instagram.com/losgrisesrt/">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" width="45" alt="Instagram">
+  </a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="https://www.tiktok.com/@losgrisesrobotics">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" width="45" alt="TikTok">
+  </a>
+</p>
 
-<div align="center">
-<img width="1000" height="500" alt="team-banner" src="https://github.com/christopherperezcortes/WRO-2026-Future-Engineers/blob/022b5e22dbfe126deb2de1cbcc4ef2f172520d0e/TEAM%20PHOTOS/LOS%20GRISES%20.png" />
-</div>
+## Team Members
 
----
+#### Team photo
 
-## 📸 Team Photo
-
-<div align="center">
-  <img width="500" height="500" alt="team-photo" src="https://github.com/christopherperezcortes/WRO-2026-Future-Engineers/blob/7e6883d057a914e7d2312305a107f0973d24a225/TEAM%20PHOTOS/Team%20photo.jpeg" />
-</div>
-
----
-
-## 👥 Team Members
+<p align="center">
+  <img src="team photos/team_photo.png" alt="Foto de equipo" width="600">
+</p>
 
 <table align="center">
   <tr>
     <th colspan="2" align="left">
-      👨‍🏫 Eduardo Alvarado González — Coach & Founder
+      Eduardo Alvarado González — Coach & Founder
     </th>
   </tr>
   <tr>
     <td width="260">
-      <img src="T-photos/Coach_Eduardo.png" width="220">
+      <img src="team photos/Coach_Eduardo.png" width="220">
     </td>
     <td>
       <b>Age:</b> 40<br><br>
-      An engineer and professor who founded <b>Los Grises Superiores</b> in 2014. Under his leadership, the team has achieved outstanding results at national and international level in WRO and the Mexican Robotics Tournament (TMR).
+      I founded <b>Los Grises Superiores</b> in 2014 with the goal of creating a team where students could learn engineering through real competition experience. Over the years we have participated in multiple WRO and TMR events, reaching both national and international stages. This season I mainly support the team in project organization, technical guidance, and helping the students improve their engineering process during development.
     </td>
   </tr>
 </table>
@@ -43,95 +49,41 @@ Official repository of **Team Los Grises Superiores** for the **Future Engineers
 <table align="center">
   <tr>
     <th colspan="2" align="left">
-      💻 Christopher Pérez Cortés — Programming & Electronics
+      Christopher Pérez Cortés — Programming & Electronics
     </th>
   </tr>
   <tr>
     <td width="260">
-      <img src="T-photos/Christopher.jpeg" width="220">
+      <img src="team photos/Christopher.jpeg" width="220">
     </td>
     <td>
       <b>Age:</b> 14<br><br>
-      Christopher joined the <b>Robotics Club</b> at Escuela Normal Superior "Profr. Moisés Sáenz Garza" earlier this year after completing an intensive robotics course. Currently in his third year of middle school, he has quickly developed skills in <b>electronics, programming (Arduino C++), and 3D modeling (Onshape)</b>. WRO 2026 is his first international competition.
+      I joined the robotics club this year after taking an intensive robotics course, and since then I have been learning a lot about electronics, Arduino programming, and 3D design in Onshape. In the team I mainly work on the robot code, sensor integration, and electronics. WRO 2026 is my first international robotics competition, so this season has been a big learning experience for me.
     </td>
   </tr>
 </table>
 
 ---
+
 <table align="center">
   <tr>
     <th colspan="2" align="left">
-      🔧 Bárbara Daiana García Balboa — Design & Assembly
+      Bárbara Daiana García Balboa — Design & Assembly
     </th>
   </tr>
   <tr>
     <td width="260">
-      <img src="T-photos/Barbara.jpeg" width="220">
+      <img src="team photos/Barbara.jpeg" width="220">
     </td>
     <td>
       <b>Age:</b> 13<br><br>
-      Bárbara joined the robotics club two months ago after completing two intensive robotics courses. She is responsible for <b>mechanical design, chassis assembly, and structural testing</b>. WRO 2026 is her first competition.
+      I joined the robotics club a few months ago after completing two robotics courses. My main role in the team is helping with the mechanical design, chassis assembly, and testing different structural ideas for the robot. This is my first robotics competition, so I have been learning how the engineering and competition process works while building the project together as a team.
     </td>
   </tr>
 </table>
 
----
-<table align="center">
-  <tr>
-    <th colspan="2" align="left">
-      🛠️ Paulina Ibarra Martínez — Design & Construction
-    </th>
-  </tr>
-  <tr>
-    <td width="260">
-      <img src="T-photos/Paulina.jpg" width="220">
-    </td>
-    <td>
-      <b>Age:</b> 21<br><br>
-      Paulina brings extensive competition experience to the team. She has participated in <b>two Mexican Robotics Tournaments</b> (5th place) and served as junior coach in WRO 2024 (3rd place) and TMR 2025 (1st place nationally). Her role this season focuses on <b>structural design, component integration, and mentoring the younger members</b>.
-    </td>
-  </tr>
-</table>
 
----
 
-## 📚 Table of Contents
-
-- [Project Overview & Abstract](#project-overview--abstract)
-- [Vehicle Photos](#vehicle-photos)
-- [Project Videos](#-project-videos)
-- [Criterion 1 — Mobility & Mechanical Design](#criterion-1--mobility--mechanical-design)
-  - [Chassis Design & Iteration](#chassis-design--iteration)
-  - [Structural Components (3D Design)](#-structural-components-3d-design)
-  - [Steering System](#steering-system)
-  - [Traction System](#traction-system)
-  - [Source Code](#source-code)
-  - [Mechanical Trade-offs & Decisions](#mechanical-trade-offs--decisions)
-- [Criterion 2 — Power & Sensor Architecture](#criterion-2--power--sensor-architecture)
-  - [Power System & Budget](#power-system--budget)
-  - [Wiring Diagram & PCB](#wiring-diagram)
-  - [Sensor Selection & Placement](#sensor-selection--placement)
-  - [Calibration Methods](#calibration-methods)
-- [Criterion 3 — Software Architecture & Obstacle Strategy](#criterion-3--software-architecture--obstacle-strategy)
-  - [System Overview](#system-overview)
-  - [State Machine](#state-machine)
-  - [Open Challenge Algorithm](#open-challenge-algorithm)
-  - [Obstacle Challenge Algorithm](#obstacle-challenge-algorithm)
-  - [Vision Processing Strategy (ROIs)](#-vision-processing-strategy-rois)
-  - [Parking Strategy](#️-parking-strategy)
-  - [Lateral Control Strategy (Non-PID)](#lateral-control-strategy-non-pid)
-  - [Testing & Tuning Process](#testing--tuning-process)
-- [Criterion 4 — Systemic Thinking & Engineering Decisions](#criterion-4--systemic-thinking--engineering-decisions)
-  - [Evolution from 2025 to 2026](#evolution-from-2025-to-2026)
-  - [Constraints & Trade-offs](#constraints--trade-offs)
-  - [Risk Analysis & Mitigation](#risk-analysis--mitigation)
-- [Criterion 5 — Repository & Reproducibility](#criterion-5--repository--reproducibility)
-  - [Repository Structure](#repository-structure)
-  - [How to Build & Run](#how-to-build--run)
-  - [Components & Bill of Materials](#components--bill-of-materials)
-- [References](#references)
-
----
 
 ## Project Overview & Abstract
 
