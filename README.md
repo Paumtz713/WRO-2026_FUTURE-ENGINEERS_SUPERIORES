@@ -1,3 +1,4 @@
+
 # WRO 2026 Future Engineers Superiores
 <p align="center">
   <img src="others/banner.png" alt="SUPERIORES" width="100%" style="border-radius: 20px;">
@@ -208,6 +209,13 @@ Our robot uses two main programs that work together. The Arduino Nano handles th
 
 The Arduino Nano works as an assistant to the ESP32. It measures the five ultrasonic sensors, controls three strips of eight LEDs, and communicates the sensor measurements to the ESP32 through I2C.
 
+### OpenMV – Detección y visión
+
+[Detección de pilares, parking y obstáculos](./codes/color_corner_v6.py)  
+Sistema de visión de la OpenMV encargado de detectar pilares rojos y verdes, identificar las paredes y el hueco del estacionamiento, detectar posibles colisiones y enviar los datos al ESP32 mediante UART. :contentReference[oaicite:0]{index=0}
+
+[Explicación del código](./codes/Pegado%20text(1).txt)  
+Explicación detallada del funcionamiento del sistema de visión, sus ROI, filtros de color y forma, detección del parking y comunicación con el ESP32. :contentReference[oaicite:1]{index=1}
 
 **Main functions:**
 
