@@ -322,6 +322,62 @@ During the development process, we tested different ideas and components before 
 One of the most important decisions was replacing the HuskyLens camera with the OpenMV H7. During testing, we noticed that the HuskyLens sometimes sent data too slowly, which caused unstable steering corrections and servo oscillation. After switching back to the OpenMV system, the robot behaved much more smoothly and consistently during autonomous navigation.**
 
 
+## Final Robot Design
+
+<p align="center">
+  <a href="./models/final_design.stl">
+    <img src="./models/final_design.png"
+         alt="Final 3D Design of Superiores Robot"
+         width="750">
+  </a>
+</p>
+
+<p align="center">
+  <b>Final 3D chassis design — WRO 2026 Future Engineers</b><br>
+  Click the image to open the complete STL model.
+</p>
+
+### Why We Chose This Design
+
+The final chassis was selected after several mechanical iterations and testing sessions throughout the development of our WRO 2026 robot.
+
+Our first prototypes were based on LEGO Technic and EV3 components. Although this approach made early modifications easier, it introduced several limitations, including higher weight, less freedom in component placement, chassis flex, and a larger overall structure.
+
+For the final version, we designed a custom 3D-printed chassis in Onshape. This allowed us to control the geometry of the robot and place each mechanical and electronic component according to its function.
+
+The final design was chosen mainly for the following reasons:
+
+- **Compact dimensions:** A shorter chassis improves maneuverability and reduces the turning radius, which is especially important in the narrower sections of the WRO 2026 track.
+
+- **Improved steering rigidity:** Earlier versions flexed when the steering servo applied force. The final chassis includes reinforced structural areas to reduce deformation and make the Ackermann steering system more precise.
+
+- **Better component distribution:** The ESP32, Arduino Nano, motor driver, batteries, OpenMV camera, ultrasonic sensors, BNO085 and other electronics can be positioned in specific locations instead of being limited by a LEGO structure.
+
+- **Lower center of gravity:** Heavy components were positioned as low as possible to improve stability while turning and during obstacle avoidance maneuvers.
+
+- **Sensor positioning:** The custom structure provides dedicated mounting positions for the front and lateral ultrasonic sensors, allowing the robot to measure the walls and obstacles from consistent angles.
+
+- **Camera visibility:** The front section was designed so the OpenMV camera has a clear field of view for detecting red and green pillars as well as the parking area.
+
+- **Ackermann steering integration:** The chassis was designed around the steering mechanism instead of adapting the steering mechanism to an existing chassis. This provides better alignment between the servo, rack-and-pinion system and front wheels.
+
+- **Rear-wheel-drive integration:** The rear section provides the necessary space and alignment for the DC motor, drivetrain and rear axle while keeping the propulsion system compact.
+
+- **Easy maintenance:** The open and modular structure allows us to access the electronics, sensors and mechanical components quickly during testing and competition.
+
+- **Iterative manufacturing:** Because the chassis is 3D printed, individual parts can be redesigned and reprinted when a problem is discovered without rebuilding the entire robot.
+
+The objective of the final design was not simply to make the robot smaller or lighter. We wanted the mechanical structure, electronics, sensors and software to work together as a single system.
+
+This design represents the lessons learned from our previous prototypes and provides a better balance between **stability, maneuverability, sensor coverage, steering precision, accessibility and reliability** for the WRO 2026 Future Engineers challenges.
+
+### 3D Model
+
+The complete printable model is available here:
+
+ **[Open `final_design.stl`](./models/final_design.stl)**
+
+
 ####  Structural Components (3D Design) 
 
 <div align="center">
