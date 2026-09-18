@@ -391,7 +391,7 @@ One of the most important decisions was replacing the HuskyLens camera with the 
     </td>
     <td align="center" width="50%">
       <strong>Real PCB</strong><br><br>
-      <img src="schemes/PCB_Real.png" width="100%">
+      <img src="schemes/PCB_Real.jpeg" width="100%">
     </td>
   </tr>
   <tr>
